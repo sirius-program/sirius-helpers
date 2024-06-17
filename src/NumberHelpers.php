@@ -107,7 +107,7 @@ class NumberHelpers
         $this->number = $spellFormatter->format($this->numberOriginal).$this->currencySymbolSpell();
 
         if (str_starts_with($this->locale, 'id_')) {
-            $this->number = str($this->number)->replace('titik', 'koma') - replace('kosong', 'nol')->toString();
+            $this->number = str($this->number)->replace('titik', 'koma')->replace('kosong', 'nol')->toString();
         }
 
         return $this;
