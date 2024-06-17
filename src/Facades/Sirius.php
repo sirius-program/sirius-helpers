@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \SiriusProgram\SiriusHelpers\Sirius
  */
-class SiriusHelpers extends Facade
+class Sirius extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
