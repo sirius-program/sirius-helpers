@@ -70,7 +70,7 @@
                 "SiriusProgram\\SiriusHelpers\\SiriusHelpersServiceProvider"
             ],
             "aliases": {
-                "Sirius": "SiriusProgram\\SiriusHelpers\\Facades\\SiriusHelpers"
+                "Sirius": "SiriusProgram\\SiriusHelpers\\Facades\\Sirius"
             }
         }
     },
