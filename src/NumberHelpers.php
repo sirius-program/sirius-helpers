@@ -95,7 +95,7 @@ class NumberHelpers
 
         $this->currencySymbol = $symbol;
 
-        $this->number = $symbol.$this->format($this->numberOriginal);
+        $this->number = $symbol . $this->format($this->numberOriginal);
 
         return $this;
     }
@@ -104,7 +104,7 @@ class NumberHelpers
     {
         $spellFormatter = new \NumberFormatter($this->locale, \NumberFormatter::SPELLOUT);
 
-        $this->number = $spellFormatter->format($this->numberOriginal).$this->currencySymbolSpell();
+        $this->number = $spellFormatter->format($this->numberOriginal) . $this->currencySymbolSpell();
 
         if (str_starts_with($this->locale, 'id_')) {
             $this->number = str($this->number)->replace('titik', 'koma')->replace('kosong', 'nol')->toString();
@@ -133,7 +133,7 @@ class NumberHelpers
         }
 
         $this->number = $this->phoneNumber->getNationalNumber();
-        $this->number = $zeroPrefix ? '0'.$this->number : $this->phoneNumber->getCountryCode().$this->number;
+        $this->number = $zeroPrefix ? '0' . $this->number : $this->phoneNumber->getCountryCode() . $this->number;
 
         return $this;
     }
@@ -167,13 +167,13 @@ class NumberHelpers
             str_contains($this->locale, 'id_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
-                'Rp' => ' rupiah',
-                '$' => ' dolar',
-                '€' => ' euro',
-                '£' => ' pound',
-                '¥' => ' yen',
-                '¥' => ' yuan',
-                '₽' => ' rubel',
+                'Rp'  => ' rupiah',
+                '$'   => ' dolar',
+                '€'   => ' euro',
+                '£'   => ' pound',
+                '¥'   => ' yen',
+                '¥'   => ' yuan',
+                '₽'   => ' rubel',
                 'ر.س' => ' riyal',
 
                 'IDR' => ' rupiah indonesia',
@@ -189,13 +189,13 @@ class NumberHelpers
             str_contains($this->locale, 'en_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
-                'Rp' => ' rupiah',
-                '$' => ' dollar',
-                '€' => ' euro',
-                '£' => ' pound',
-                '¥' => ' yen',
-                '¥' => ' yuan',
-                '₽' => ' ruble',
+                'Rp'  => ' rupiah',
+                '$'   => ' dollar',
+                '€'   => ' euro',
+                '£'   => ' pound',
+                '¥'   => ' yen',
+                '¥'   => ' yuan',
+                '₽'   => ' ruble',
                 'ر.س' => ' riyal',
 
                 'IDR' => ' indonesian rupiah',
@@ -211,14 +211,14 @@ class NumberHelpers
             str_contains($this->locale, 'ja_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
-                'Rp' => 'ルピア',
-                '$' => 'ドル',
-                '€' => 'ユーロ',
-                '£' => 'ポンド',
-                '￥' => '円',
-                '¥' => '円',
-                '¥' => '元',
-                '₽' => 'ルーブル',
+                'Rp'  => 'ルピア',
+                '$'   => 'ドル',
+                '€'   => 'ユーロ',
+                '£'   => 'ポンド',
+                '￥'   => '円',
+                '¥'   => '円',
+                '¥'   => '元',
+                '₽'   => 'ルーブル',
                 'ر.س' => 'リヤル',
 
                 'IDR' => 'インドネシアルピア',

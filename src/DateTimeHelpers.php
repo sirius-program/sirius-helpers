@@ -129,11 +129,11 @@ class DateTimeHelpers
 
     public static function getAllMonths(string $format = 'MMMM'): array
     {
-        if (! in_array('intl', get_loaded_extensions())) {
+        if (!in_array('intl', get_loaded_extensions())) {
             throw new \Exception('Intl extension is not loaded in this environment.', 500);
         }
 
-        if (! in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'])) {
+        if (!in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'])) {
             throw new \InvalidArgumentException('Invalid format, accepted format: M, MM, MMM, MMMM, or MMMMM.', 500);
         }
 
@@ -151,11 +151,11 @@ class DateTimeHelpers
 
     public static function getAllDays(string $format = 'EEEE', int $startingDay = self::START_WITH_SUNDAY): array
     {
-        if (! in_array('intl', get_loaded_extensions())) {
+        if (!in_array('intl', get_loaded_extensions())) {
             throw new \Exception('Intl extension is not loaded in this environment.', 500);
         }
 
-        if (! in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'])) {
+        if (!in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'])) {
             throw new \InvalidArgumentException('Invalid format, accepted format: E, EE, EEE, EEEE or EEEEEE.', 500);
         }
 
