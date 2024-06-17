@@ -95,7 +95,7 @@ class NumberHelpers
 
         $this->currencySymbol = $symbol;
 
-        $this->number = $symbol . $this->format($this->numberOriginal);
+        $this->number = $symbol.$this->format($this->numberOriginal);
 
         return $this;
     }
@@ -104,10 +104,10 @@ class NumberHelpers
     {
         $spellFormatter = new \NumberFormatter($this->locale, \NumberFormatter::SPELLOUT);
 
-        $this->number = $spellFormatter->format($this->numberOriginal) . $this->currencySymbolSpell();
+        $this->number = $spellFormatter->format($this->numberOriginal).$this->currencySymbolSpell();
 
         if (str_starts_with($this->locale, 'id_')) {
-            $this->number = str($this->number)->replace('titik', 'koma')-replace('kosong', 'nol')->toString();
+            $this->number = str($this->number)->replace('titik', 'koma') - replace('kosong', 'nol')->toString();
         }
 
         return $this;
@@ -116,7 +116,7 @@ class NumberHelpers
     public function toPhoneNumber(bool $zeroPrefix = false): static
     {
         $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
-        
+
         $locale = config('app.locale');
 
         $this->phoneNumber = $formatter->parse($this->numberOriginal, $locale);
@@ -132,9 +132,8 @@ class NumberHelpers
             $this->toPhoneNumber($zeroPrefix);
         }
 
-
         $this->number = $this->phoneNumber->getNationalNumber();
-        $this->number = $zeroPrefix ? '0' . $this->number : $this->phoneNumber->getCountryCode() . $this->number;
+        $this->number = $zeroPrefix ? '0'.$this->number : $this->phoneNumber->getCountryCode().$this->number;
 
         return $this;
     }
@@ -146,7 +145,7 @@ class NumberHelpers
         } else {
             var_dump($this->number);
         }
-        
+
         return $this;
     }
 
@@ -157,7 +156,7 @@ class NumberHelpers
         }
 
         var_dump($this->number);
-        die;
+        exit;
     }
 
     // Helpers
@@ -221,7 +220,6 @@ class NumberHelpers
                 '¥' => '元',
                 '₽' => 'ルーブル',
                 'ر.س' => 'リヤル',
-                
 
                 'IDR' => 'インドネシアルピア',
                 'USD', 'US$' => '米ドル',

@@ -6,7 +6,7 @@ class Sirius
 {
     public function __construct(private mixed $string = '')
     {
-        // 
+        //
     }
 
     public function __toString(): string

@@ -2,7 +2,6 @@
 
 namespace SiriusProgram\SiriusHelpers\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use SiriusProgram\SiriusHelpers\SiriusHelpersServiceProvider;
 

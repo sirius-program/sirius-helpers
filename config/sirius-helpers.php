@@ -7,7 +7,6 @@ return [
     /**
      * Default locale for currency formatting.
      */
-
     'currency-locale' => 'id_ID',
 
 ];
