@@ -4,7 +4,7 @@ namespace SiriusProgram\SiriusHelpers;
 
 use Illuminate\Support\ServiceProvider;
 
-class SiriusHelpersServiceProvider extends ServiceProvider
+class SiriusServiceProvider extends ServiceProvider
 {
     public function register()
     {
