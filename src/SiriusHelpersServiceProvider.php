@@ -19,4 +19,9 @@ class SiriusHelpersServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews();
     }
+
+    public function registeringPackage(): variant_mod
+    {
+        $this->app->bind('Sirius', Sirius::class);
+    }
 }

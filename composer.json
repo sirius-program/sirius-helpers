@@ -67,11 +67,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "SiriusProgram\\SiriusHelpers\\SiriusHelpersServiceProvider",
-                "SiriusProgram\\SiriusHelpers\\SiriusServiceProvider"
+                "SiriusProgram\\SiriusHelpers\\SiriusHelpersServiceProvider"
             ],
             "aliases": {
-                "Sirius": "SiriusProgram\\SiriusHelpers\\Facades\\Sirius"
+                "Sirius": "SiriusProgram\\SiriusHelpers\\Sirius"
             }
         }
     },
