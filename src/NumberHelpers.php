@@ -10,8 +10,6 @@ class NumberHelpers
 
     protected \NumberFormatter $formatter;
 
-    protected \libphonenumber\PhoneNumber $phoneNumber;
-
     public function __construct(private string|int|float $number = '', private ?string $locale = null)
     {
         $this->locale = $locale ?? config('sirius-helpers.currency-locale');
@@ -113,31 +111,6 @@ class NumberHelpers
         return $this;
     }
 
-    public function toPhoneNumber(bool $zeroPrefix = false): static
-    {
-        $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
-
-        $locale = config('app.locale');
-
-        $this->phoneNumber = $formatter->parse($this->numberOriginal, $locale);
-
-        $this->number = $formatter->format($this->phoneNumber, $zeroPrefix ? \libphonenumber\PhoneNumberFormat::NATIONAL : \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-
-        return $this;
-    }
-
-    public function sanitizePhoneNumber(bool $zeroPrefix = false): static
-    {
-        if (empty($this->phoneNumber)) {
-            $this->toPhoneNumber($zeroPrefix);
-        }
-
-        $this->number = $this->phoneNumber->getNationalNumber();
-        $this->number = $zeroPrefix ? '0' . $this->number : $this->phoneNumber->getCountryCode() . $this->number;
-
-        return $this;
-    }
-
     public function dump(): static
     {
         if (function_exists('dump')) {
@@ -164,6 +137,7 @@ class NumberHelpers
     private function currencySymbolSpell(): string
     {
         return match (true) {
+            default => '',
             str_contains($this->locale, 'id_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 

@@ -21,19 +21,19 @@ class Sirius
         return $this;
     }
 
-    public function dateTime(): DateTimeHelpers
+    public function dateTime(string|int|\DateTime|Carbon\Carbon|null $datetime = null): DateTimeHelpers
     {
-        return new DateTimeHelpers($this->string);
+        return new DateTimeHelpers($datetime ?? $this->string);
     }
 
-    public function number(): NumberHelpers
+    public function number(int|float|null $number = null): NumberHelpers
     {
-        return new NumberHelpers($this->string);
+        return new NumberHelpers($number ?? (float)$this->string);
     }
 
-    public function string(): StringHelpers
+    public function string(?string $string = null): StringHelpers
     {
-        return new StringHelpers($this->string);
+        return new StringHelpers($string ?? $this->string);
     }
 
     // Other Helper

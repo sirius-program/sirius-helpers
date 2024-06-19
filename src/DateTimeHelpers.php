@@ -78,7 +78,7 @@ class DateTimeHelpers
 
     public function toShortMonth(): static
     {
-        return self::transform('getAllMonths', 'M', 'MM');
+        return self::transform('getAllMonths', 'M', 'MMM');
     }
 
     public function toLongDay(): static
@@ -125,57 +125,6 @@ class DateTimeHelpers
         exit;
     }
 
-    // Static
-
-    public static function getAllMonths(string $format = 'MMMM'): array
-    {
-        if (!in_array('intl', get_loaded_extensions())) {
-            throw new \Exception('Intl extension is not loaded in this environment.', 500);
-        }
-
-        if (!in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'])) {
-            throw new \InvalidArgumentException('Invalid format, accepted format: M, MM, MMM, MMMM, or MMMMM.', 500);
-        }
-
-        $datetime = new \DateTime;
-
-        $this->formatter->setPattern($format);
-
-        $months = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = $this->formatter->format($datetime->setDate(2000, $i, 1));
-        }
-
-        return $months;
-    }
-
-    public static function getAllDays(string $format = 'EEEE', int $startingDay = self::START_WITH_SUNDAY): array
-    {
-        if (!in_array('intl', get_loaded_extensions())) {
-            throw new \Exception('Intl extension is not loaded in this environment.', 500);
-        }
-
-        if (!in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'])) {
-            throw new \InvalidArgumentException('Invalid format, accepted format: E, EE, EEE, EEEE or EEEEEE.', 500);
-        }
-
-        $datetime = new \DateTime;
-
-        $this->formatter->setPattern($format);
-
-        $days = [];
-        for ($i = 1; $i <= 7; $i++) {
-            $days[$i] = $this->formatter->format($datetime->setDate(2001, 1, $i));
-        }
-
-        if ($startingDay == self::START_WITH_SUNDAY) {
-            $days[0] = $days[7];
-            unset($days[7]);
-        }
-
-        return $days;
-    }
-
     // Helper
 
     private function transform(string $fetchFunction, string $datetimeFormat, string $fetcherFormat): static
@@ -184,8 +133,8 @@ class DateTimeHelpers
             $this->datetime = $this->datetime->format($datetimeFormat);
         } elseif ($this->datetime instanceof Carbon\Carbon) {
             $this->datetime = $this->datetime->translatedFormat($datetimeFormat);
-        } elseif (is_int($this->datetime)) {
-            $this->datetime = self::{$fetchFunction}($fetcherFormat)[(int) $this->datetime];
+        } elseif (is_numeric($this->datetime)) {
+            $this->datetime = self::{$fetchFunction}(format: $fetcherFormat)[(int) $this->datetime];
         } else {
             $format = 'Y-m-d';
             if (str_contains(' ', $this->datetime)) {
@@ -197,5 +146,64 @@ class DateTimeHelpers
         }
 
         return $this;
+    }
+
+    // Static
+
+    public static function getAllMonths(?\IntlDateFormatter $formatter = null, string $format = 'MMMM'): array
+    {
+        if (!in_array('intl', get_loaded_extensions())) {
+            throw new \Exception('Intl extension is not loaded in this environment.', 500);
+        }
+
+        if (!in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'])) {
+            throw new \InvalidArgumentException('Invalid format, accepted format: M, MM, MMM, MMMM, or MMMMM.', 500);
+        }
+
+        $locale = config('app.locale');
+
+        $formatter = new \IntlDateFormatter($locale, \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
+
+        $formatter->setPattern($format);
+
+        $datetime = new \DateTime;
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[$i] = $formatter->format($datetime->setDate(2000, $i, 1));
+        }
+
+        return $months;
+    }
+
+    public static function getAllDays(?\IntlDateFormatter $formatter = null, string $format = 'EEEE', int $startingDay = self::START_WITH_SUNDAY): array
+    {
+        if (!in_array('intl', get_loaded_extensions())) {
+            throw new \Exception('Intl extension is not loaded in this environment.', 500);
+        }
+
+        if (!in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'])) {
+            throw new \InvalidArgumentException('Invalid format, accepted format: E, EE, EEE, EEEE or EEEEEE.', 500);
+        }
+
+        $locale = config('app.locale');
+
+        $formatter = new \IntlDateFormatter($locale, \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
+
+        $formatter->setPattern($format);
+
+        $datetime = new \DateTime;
+
+        $days = [];
+        for ($i = 1; $i <= 7; $i++) {
+            $days[$i] = $formatter->format($datetime->setDate(2001, 1, $i));
+        }
+
+        if ($startingDay == self::START_WITH_SUNDAY) {
+            $days[0] = $days[7];
+            unset($days[7]);
+        }
+
+        return $days;
     }
 }

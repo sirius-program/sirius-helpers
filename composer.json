@@ -31,9 +31,11 @@
     },
     "autoload": {
         "psr-4": {
-            "SiriusProgram\\SiriusHelpers\\": "src/",
-            "SiriusProgram\\SiriusHelpers\\Database\\Factories\\": "database/factories/"
-        }
+            "SiriusProgram\\SiriusHelpers\\": "src/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -70,7 +72,10 @@
                 "SiriusProgram\\SiriusHelpers\\SiriusHelpersServiceProvider"
             ],
             "aliases": {
-                "Sirius": "SiriusProgram\\SiriusHelpers\\Sirius"
+                "Sirius": "SiriusProgram\\SiriusHelpers\\Sirius",
+                "StringHelpers": "SiriusProgram\\SiriusHelpers\\StringHelpers",
+                "NumberHelpers": "SiriusProgram\\SiriusHelpers\\NumberHelpers",
+                "DateTimeHelpers": "SiriusProgram\\SiriusHelpers\\DateTimeHelpers"
             }
         }
     },

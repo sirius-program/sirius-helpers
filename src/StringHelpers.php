@@ -1,7 +1,11 @@
 <?php
 
+namespace SiriusProgram\SiriusHelpers;
+
 class StringHelpers
 {
+    protected \libphonenumber\PhoneNumber $phoneNumber;
+
     public function __construct(private string $string = '')
     {
         //
@@ -47,7 +51,12 @@ class StringHelpers
         $key = substr(hash('sha256', $salt, true), 0, 32);
         $iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
 
-        $this->string = openssl_decrypt(base64_decode($this->string), $method, $key, OPENSSL_RAW_DATA, $iv);
+        $decrypted = openssl_decrypt(base64_decode($this->string), $method, $key, OPENSSL_RAW_DATA, $iv);
+        if (empty($decrypted)) {
+            $decrypted = openssl_decrypt(base64_decode($this->urlUnsafe()->string), $method, $key, OPENSSL_RAW_DATA, $iv);
+        }
+
+        $this->string = $decrypted;
 
         return $this;
     }
@@ -62,6 +71,35 @@ class StringHelpers
     public function urlUnsafe(): static
     {
         $this->string = strtr($this->string, '._-', '+/=');
+
+        return $this;
+    }
+
+    public function toPhoneNumber(bool $zeroPrefix = false): static
+    {
+        $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+
+        $locale = config('app.locale');
+
+        $this->phoneNumber = $formatter->parse($this->string, $locale);
+
+        if (!$formatter->isValidNumber($this->phoneNumber)) {
+            throw new \InvalidArgumentException('Invalid phone number.', 500);
+        }
+
+        $this->string = $formatter->format($this->phoneNumber, $zeroPrefix ? \libphonenumber\PhoneNumberFormat::NATIONAL : \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+
+        return $this;
+    }
+
+    public function sanitizePhoneNumber(bool $zeroPrefix = false): static
+    {
+        if (empty($this->phoneNumber)) {
+            $this->toPhoneNumber($zeroPrefix);
+        }
+
+        $this->string = $this->phoneNumber->getNationalNumber();
+        $this->string = $zeroPrefix ? ('0' . $this->string) : ("+" . $this->phoneNumber->getCountryCode() . $this->string);
 
         return $this;
     }
