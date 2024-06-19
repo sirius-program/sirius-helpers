@@ -8,11 +8,11 @@ class DateTimeHelpers
 
     const START_WITH_MONDAY = 1;
 
-    private string|int|\DateTime|Carbon\Carbon $datetimeOriginal;
+    private string|int|\DateTime|\Carbon\Carbon $datetimeOriginal;
 
     protected \IntlDateFormatter $formatter;
 
-    public function __construct(private string|int|\DateTime|Carbon\Carbon $datetime = '')
+    public function __construct(private string|int|\DateTime|\Carbon\Carbon $datetime = '')
     {
         $locale = config('app.locale');
 
@@ -28,19 +28,19 @@ class DateTimeHelpers
 
     // Getters
 
-    public function getOriginal(): string|int|\DateTime|Carbon\Carbon
+    public function getOriginal(): string|int|\DateTime|\Carbon\Carbon
     {
         return $this->datetimeOriginal;
     }
 
-    public function get(): string|int|\DateTime|Carbon\Carbon
+    public function get(): string|int|\DateTime|\Carbon\Carbon
     {
         return $this->datetime;
     }
 
     // Transformation
 
-    public function of(string|int|\DateTime|Carbon\Carbon $string): static
+    public function of(string|int|\DateTime|\Carbon\Carbon $string): static
     {
         $this->datetime = $string;
 
@@ -62,7 +62,7 @@ class DateTimeHelpers
 
     public function toCarbon(string $format = 'Y-m-d H:i:s'): static
     {
-        $this->datetime = Carbon\Carbon::createFromFormat($format, $this->datetime);
+        $this->datetime = \Carbon\Carbon::createFromFormat($format, $this->datetime);
 
         if ($this->datetime === 0) {
             throw new \InvalidArgumentException('Invalid date format.', 500);
@@ -95,7 +95,7 @@ class DateTimeHelpers
     {
         if ($this->datetime instanceof \DateTime) {
             $this->datetime = $this->datetime->format($format);
-        } elseif ($this->datetime instanceof Carbon\Carbon) {
+        } elseif ($this->datetime instanceof \Carbon\Carbon) {
             $this->datetime = $this->datetime->translatedFormat($format);
         } else {
             throw new \Exception(sprintf('Cannot format instance of %s.', gettype($this->datetime)), 500);
@@ -131,7 +131,7 @@ class DateTimeHelpers
     {
         if ($this->datetime instanceof \DateTime) {
             $this->datetime = $this->datetime->format($datetimeFormat);
-        } elseif ($this->datetime instanceof Carbon\Carbon) {
+        } elseif ($this->datetime instanceof \Carbon\Carbon) {
             $this->datetime = $this->datetime->translatedFormat($datetimeFormat);
         } elseif (is_numeric($this->datetime)) {
             $this->datetime = self::{$fetchFunction}(format: $fetcherFormat)[(int) $this->datetime];
@@ -141,7 +141,7 @@ class DateTimeHelpers
                 $format = 'Y-m-d H:i:s';
             }
 
-            class_exists(Carbon\Carbon::class) ? $this->toCarbon($format) : $this->toDateTime($format);
+            class_exists(\Carbon\Carbon::class) ? $this->toCarbon($format) : $this->toDateTime($format);
             $this->transform($fetchFunction, $datetimeFormat, $fetcherFormat);
         }
 
