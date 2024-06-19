@@ -8,17 +8,17 @@ class DateTimeHelpers
 
     const START_WITH_MONDAY = 1;
 
-    private string|int|\DateTime|\Carbon\Carbon $datetimeOriginal;
+    private string|int|\DateTime|\Carbon\Carbon $originalDateTime;
 
     protected \IntlDateFormatter $formatter;
 
-    public function __construct(private string|int|\DateTime|\Carbon\Carbon $datetime = '')
+    public function __construct(private string|int|\DateTime|\Carbon\Carbon $dateTime = '')
     {
         $locale = config('app.locale');
 
         $this->formatter = new \IntlDateFormatter($locale, \IntlDateFormatter::FULL, \IntlDateFormatter::NONE);
 
-        $this->datetimeOriginal = $datetime;
+        $this->originalDateTime = $dateTime;
     }
 
     public function __toString(): string
@@ -30,42 +30,55 @@ class DateTimeHelpers
 
     public function getOriginal(): string|int|\DateTime|\Carbon\Carbon
     {
-        return $this->datetimeOriginal;
+        return $this->originalDateTime;
     }
 
     public function get(): string|int|\DateTime|\Carbon\Carbon
     {
-        return $this->datetime;
+        return $this->dateTime;
     }
 
     // Transformation
 
     public function of(string|int|\DateTime|\Carbon\Carbon $string): static
     {
-        $this->datetime = $string;
+        $this->dateTime = $string;
 
-        $this->datetimeOriginal = $string;
+        $this->originalDateTime = $string;
 
         return $this;
     }
 
-    public function toDateTime(string $format = 'Y-m-d H:i:s'): static
+    public function toDateTime(string $fromFormat = 'Y-m-d H:i:s'): static
     {
-        $this->datetime = \DateTime::createFromFormat($format, $this->datetime);
+        $this->dateTime = \DateTime::createFromFormat($fromFormat, $this->dateTime);
 
-        if ($this->datetime === 0) {
+        if ($this->dateTime === 0) {
             throw new \InvalidArgumentException('Invalid date format.', 500);
         }
 
         return $this;
     }
 
-    public function toCarbon(string $format = 'Y-m-d H:i:s'): static
+    public function toCarbon(string $fromFormat = 'Y-m-d H:i:s'): static
     {
-        $this->datetime = \Carbon\Carbon::createFromFormat($format, $this->datetime);
+        $this->dateTime = \Carbon\Carbon::createFromFormat($fromFormat, $this->dateTime);
 
-        if ($this->datetime === 0) {
+        if ($this->dateTime === 0) {
             throw new \InvalidArgumentException('Invalid date format.', 500);
+        }
+
+        return $this;
+    }
+
+    public function format(string $format = 'Y-m-d H:i:s'): static
+    {
+        if ($this->dateTime instanceof \DateTime) {
+            $this->dateTime = $this->dateTime->format($format);
+        } elseif ($this->dateTime instanceof \Carbon\Carbon) {
+            $this->dateTime = $this->dateTime->translatedFormat($format);
+        } else {
+            throw new \Exception(sprintf('Cannot format instance of %s.', gettype($this->dateTime)), 500);
         }
 
         return $this;
@@ -91,25 +104,12 @@ class DateTimeHelpers
         return self::transform('getAllDays', 'D', 'EE');
     }
 
-    public function format(string $format): static
-    {
-        if ($this->datetime instanceof \DateTime) {
-            $this->datetime = $this->datetime->format($format);
-        } elseif ($this->datetime instanceof \Carbon\Carbon) {
-            $this->datetime = $this->datetime->translatedFormat($format);
-        } else {
-            throw new \Exception(sprintf('Cannot format instance of %s.', gettype($this->datetime)), 500);
-        }
-
-        return $this;
-    }
-
     public function dump(): static
     {
         if (function_exists('dump')) {
-            dump($this->datetime);
+            dump($this->dateTime);
         } else {
-            var_dump($this->datetime);
+            var_dump($this->dateTime);
         }
 
         return $this;
@@ -118,31 +118,31 @@ class DateTimeHelpers
     public function dd(): void
     {
         if (function_exists('dd')) {
-            dd($this->datetime);
+            dd($this->dateTime);
         }
 
-        var_dump($this->datetime);
+        var_dump($this->dateTime);
         exit;
     }
 
     // Helper
 
-    private function transform(string $fetchFunction, string $datetimeFormat, string $fetcherFormat): static
+    private function transform(string $fetchFunction, string $dateTimeFormat, string $fetcherFormat): static
     {
-        if ($this->datetime instanceof \DateTime) {
-            $this->datetime = $this->datetime->format($datetimeFormat);
-        } elseif ($this->datetime instanceof \Carbon\Carbon) {
-            $this->datetime = $this->datetime->translatedFormat($datetimeFormat);
-        } elseif (is_numeric($this->datetime)) {
-            $this->datetime = self::{$fetchFunction}(format: $fetcherFormat)[(int) $this->datetime];
+        if ($this->dateTime instanceof \DateTime) {
+            $this->dateTime = $this->dateTime->format($dateTimeFormat);
+        } elseif ($this->dateTime instanceof \Carbon\Carbon) {
+            $this->dateTime = $this->dateTime->translatedFormat($dateTimeFormat);
+        } elseif (is_numeric($this->dateTime)) {
+            $this->dateTime = self::{$fetchFunction}(format: $fetcherFormat)[(int) $this->dateTime];
         } else {
             $format = 'Y-m-d';
-            if (str_contains(' ', $this->datetime)) {
+            if (str_contains(' ', $this->dateTime)) {
                 $format = 'Y-m-d H:i:s';
             }
 
             class_exists(\Carbon\Carbon::class) ? $this->toCarbon($format) : $this->toDateTime($format);
-            $this->transform($fetchFunction, $datetimeFormat, $fetcherFormat);
+            $this->transform($fetchFunction, $dateTimeFormat, $fetcherFormat);
         }
 
         return $this;
@@ -166,11 +166,11 @@ class DateTimeHelpers
 
         $formatter->setPattern($format);
 
-        $datetime = new \DateTime;
+        $dateTime = new \DateTime;
 
         $months = [];
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = $formatter->format($datetime->setDate(2000, $i, 1));
+            $months[$i] = $formatter->format($dateTime->setDate(2000, $i, 1));
         }
 
         return $months;
@@ -192,17 +192,19 @@ class DateTimeHelpers
 
         $formatter->setPattern($format);
 
-        $datetime = new \DateTime;
+        $dateTime = new \DateTime;
 
         $days = [];
         for ($i = 1; $i <= 7; $i++) {
-            $days[$i] = $formatter->format($datetime->setDate(2001, 1, $i));
+            $days[$i] = $formatter->format($dateTime->setDate(2001, 1, $i));
         }
 
         if ($startingDay == self::START_WITH_SUNDAY) {
             $days[0] = $days[7];
             unset($days[7]);
         }
+
+        ksort($days);
 
         return $days;
     }

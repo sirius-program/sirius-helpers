@@ -40,6 +40,7 @@ CURRENCY_LOCALE=en_US
 ```php
 // use Sirius class
 $sirius = new Sirius();
+
 // or use the helper function
 sirius();
 ```
@@ -69,6 +70,7 @@ You can use it from the Sirius instance:
 // use Sirius class
 $sirius = new Sirius();
 $helper = $sirius->string();
+
 // or use the helper function
 sirius()->string();
 ```
@@ -77,8 +79,9 @@ Or use it straight from the StringHelpers instance:
 ```php
 // use StringHelpers class
 $helper = new StringHelpers();
+
 // or use the helper function
-sstring();
+sString();
 ```
 
 There are 7 methods you can use to manipulate string:
@@ -185,6 +188,7 @@ You can use it from the Sirius instance:
 // use Sirius class
 $sirius = new Sirius();
 $helper = $sirius->number();
+
 // or use the helper function
 sirius()->number();
 ```
@@ -193,8 +197,9 @@ Or use it straight from the NumberHelpers instance:
 ```php
 // use NumberHelpers class
 $helper = new NumberHelpers();
+
 // or use the helper function
-snumber();
+sNumber();
 ```
 
 There are 6 methods you can use to manipulate number:
@@ -202,7 +207,7 @@ There are 6 methods you can use to manipulate number:
 
 ## toInt()
 
-Simply saying, this method will convert your number into Integer.
+This method will convert your number into Integer.
 
 ```php
 echo sirius()->number(1234.56)->toInt();
@@ -212,7 +217,7 @@ Code above will echo `1234`
 
 ## toFloat()
 
-Simply saying, this method will convert your number into Float.
+This method will convert your number into Float.
 
 ```php
 echo sirius()->number('1234.56')->toFloat();
@@ -300,10 +305,10 @@ Code above will echo `10000.05`
 
 Every method above return `$this`, so you can also chain the methods like this:
 ```php
-echo sirius()->number(10000.05)
-    ->toInt() // 10000
+echo sirius()->number(10000)
     ->toCurrency() // Rp10.000
-    ->spell(); // sepuluh ribu rupiah
+    ->spell() // sepuluh ribu rupiah
+    ->getOriginal(); // 10000
 ```
 
 ## Dumping Everywhere
@@ -319,3 +324,179 @@ echo sirius()->number(10000.05)
 ```
 
 # DateTime Helpers
+
+This helpers contains a lot of functions that can help you to manipulate datetime string.
+
+## Usage
+
+You can use it from the Sirius instance:
+```php
+// use Sirius class
+$sirius = new Sirius();
+$helper = $sirius->dateTime();
+
+// or use the helper function
+sirius()->dateTime();
+```
+
+Or use it straight from the DateTimeHelpers instance:
+```php
+// use DateTimeHelpers class
+$helper = new DateTimeHelpers();
+
+// or use the helper function
+sDateTime();
+```
+
+There are 7 methods you can use to manipulate datetime string:
+`toDateTime`, `toCarbon`, `format`, `toLongMonth`, `toShortMonth`, `toLongDay`, and `toShortDay`
+
+## toDateTime(string $fromFormat = 'Y-m-d H:i:s')
+
+This method will convert your datetime string into PHP's `DateTime` object.
+
+## toCarbon(string $fromFormat = 'Y-m-d H:i:s')
+
+This method will convert your datetime string into [nesbot](https://carbon.nesbot.com/)'s `Carbon` object.
+
+## format(string $format = 'Y-m-d H:i:s')
+
+This method will format your datetime string based on the `$format` parameter. The provided datetime string must be converted into PHP's `DateTime` object or [nesbot](https://carbon.nesbot.com/)'s `Carbon` object first.
+
+## toLongMonth()
+
+This method will convert your datetime string into long month string. The provided datetime string can be in integer, datetime string (ex: '2024-01-01'), PHP's `DateTime`, or [nesbot](https://carbon.nesbot.com/)'s `Carbon` object. This method will use the language based on your config in `app.locale`.
+
+```php
+echo sirius()->dateTime(12)->toLongMonth();
+```
+
+Code above will echo `December`
+
+## toShortMonth()
+
+This method will convert your datetime string into short month string. The provided datetime string can be in integer, datetime string (ex: '2024-01-01'), PHP's `DateTime`, or [nesbot](https://carbon.nesbot.com/)'s `Carbon` object. This method will use the language based on your config in `app.locale`.
+
+```php
+echo sirius()->dateTime('2024-01-01')->toShortMonth();
+```
+
+Code above will echo `January`
+
+## toLongDay()
+
+This method will convert your datetime string into long day string. The provided datetime string can be in integer, datetime string (ex: '2024-01-01'), PHP's `DateTime`, or [nesbot](https://carbon.nesbot.com/)'s `Carbon` object. This method will use the language based on your config in `app.locale`.
+
+```php
+echo sirius()->dateTime(6)->toLongDay();
+```
+
+Code above will echo `Saturday`
+
+## toShortDay()
+
+This method will convert your datetime string into short day string. The provided datetime string can be in integer, datetime string (ex: '2024-01-01'), PHP's `DateTime`, or [nesbot](https://carbon.nesbot.com/)'s `Carbon` object. This method will use the language based on your config in `app.locale`.
+
+```php
+echo sirius()->dateTime('2024-01-01')->toShortDay();
+```
+
+Code above will echo `Mon`
+
+## Get the Original DateTime String
+
+You can always retrieve the original datetime string.
+
+```php
+echo sirius()->dateTime('2024-01-01')->toCarbon('Y-m-d')->getOriginal();
+```
+
+Code above will echo `2024-01-01`
+
+## Method Chaining
+
+Every method above return `$this`, so you can also chain the methods like this:
+```php
+echo sirius()->dateTime('2024-01-01 01:01:01')
+    ->toDateTime() // will be converted into PHP's DateTime object
+    ->format('Y-m-d') // 2024-01-01
+    ->toLongMonth() // January
+    ->getOriginal(); // 2024-01-01 01:01:01
+```
+
+## Dumping Everywhere
+
+You can do `dump()` or `dd()` in every method above.
+For example:
+```php
+echo sirius()->dateTime('2024-01-01 01:01:01')
+    ->toDateTime()
+    ->format('Y-m-d')
+    ->dump()
+    ->toLongMonth()
+    ->dd()
+```
+
+## Static Methods
+
+This helpers contains 2 static methods: `getAllMonths`, and `getAllDays`. As the name says, these two methods will retrieve all months and days with the language based on your config in `app.locale`.
+
+These two methods accept 2 arguments: `$formatter` and `$format`. The default `$formatter` will be `new \IntlDateFormatter($locale, \IntlDateFormatter::FULL, \IntlDateFormatter::NONE)` and the default `$format` will be `MMMM`. You can find the other format symbol in [ICU Documentation](https://unicode-org.github.io/icu/userguide/format_parse/datetime/).
+
+```php
+$months = DateTimeHelpers::getAllMonths();
+```
+
+The `$months` variable will be an array of this:
+```php
+[
+    1 => "January",
+    2 => "February",
+    3 => "March",
+    4 => "April",
+    5 => "May",
+    6 => "June",
+    7 => "July",
+    8 => "August",
+    9 => "September",
+    10 => "October",
+    11 => "November",
+    12 => "December",
+]
+```
+
+```php
+$days = DateTimeHelpers::getAllDays();
+```
+
+The `$days` variable will be an array of this:
+```php
+[
+    0 => "Sunday",
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+]
+```
+
+The `getAllDays` method also accepts the 3rd argument `$startingDay`. The default value will be constant `START_WITH_SUNDAY`. You can set it to constant `START_WITH_MONDAY` to start with Monday.
+
+```php
+$days = DateTimeHelpers::getAllDays(startingDay: DateTimeHelpers::START_WITH_MONDAY);
+```
+
+The `$days` variable will be an array of this:
+```php
+[
+    1 => "Monday",
+    2 => "Tuesday",
+    3 => "Wednesday",
+    4 => "Thursday",
+    5 => "Friday",
+    6 => "Saturday",
+    7 => "Sunday",
+]
+```

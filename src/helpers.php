@@ -7,22 +7,22 @@ if (!function_exists('sirius')) {
     }
 }
 
-if (!function_exists('sstring')) {
-    function sstring(string $string = ''): SiriusProgram\SiriusHelpers\StringHelpers
+if (!function_exists('sString')) {
+    function sString(string $string = ''): SiriusProgram\SiriusHelpers\StringHelpers
     {
         return sirius($string)->string();
     }
 }
 
-if (!function_exists('snumber')) {
-    function snumber(string|int|float $string = ''): SiriusProgram\SiriusHelpers\NumberHelpers
+if (!function_exists('sNumber')) {
+    function sNumber(string|int|float $string = ''): SiriusProgram\SiriusHelpers\NumberHelpers
     {
         return sirius($string)->number();
     }
 }
 
-if (!function_exists('sdatetime')) {
-    function sdatetime(string|int|\DateTime|Carbon\Carbon $string = ''): SiriusProgram\SiriusHelpers\DateTimeHelpers
+if (!function_exists('sDateTime')) {
+    function sDateTime(string|int|\DateTime|Carbon\Carbon $string = ''): SiriusProgram\SiriusHelpers\DateTimeHelpers
     {
         return sirius($string)->dateTime();
     }
