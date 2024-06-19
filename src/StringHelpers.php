@@ -25,11 +25,9 @@ class StringHelpers
 
     // Transformation
 
-    public function toStr(): static
+    public function toStr(): \Illuminate\Support\Str
     {
-        $this->string = str($this->string);
-
-        return $this;
+        return str($this->string);
     }
 
     public function encrypt(?string $salt = null): static
