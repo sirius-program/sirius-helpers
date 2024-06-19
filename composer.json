@@ -34,7 +34,7 @@
             "SiriusProgram\\SiriusHelpers\\": "src/"
         },
         "files": [
-            "app/helpers.php"
+            "src/helpers.php"
         ]
     },
     "autoload-dev": {
