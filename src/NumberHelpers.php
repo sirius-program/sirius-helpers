@@ -12,7 +12,7 @@ class NumberHelpers
 
     public function __construct(private string|int|float $number = '', private ?string $locale = null)
     {
-        $this->locale = $locale ?? config('sirius-helpers.currency-locale');
+        $this->locale = $locale ?? config('sirius-helpers.currency_locale');
 
         $this->formatter = new \NumberFormatter($this->locale, \NumberFormatter::DECIMAL);
 
