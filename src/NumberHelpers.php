@@ -75,7 +75,7 @@ class NumberHelpers
         if (!is_null($currencyLocale)) {
             $this->setLocale($currencyLocale);
         }
-        
+
         $this->number = $this->formatter->format($this->originalNumber);
 
         return $this;
@@ -149,7 +149,7 @@ class NumberHelpers
     private function currencySymbolSpell(): string
     {
         return match (true) {
-            default                            => '',
+            default                                    => '',
             str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
