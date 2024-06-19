@@ -4,7 +4,7 @@ namespace SiriusProgram\SiriusHelpers;
 
 class NumberHelpers
 {
-    private string $currencySymbol;
+    private string $currencySymbol = '';
 
     private string|int|float $numberOriginal;
 
@@ -160,7 +160,7 @@ class NumberHelpers
                 'RUB', 'RU₽' => ' ruble rusia',
                 'SAR' => ' riyal arab saudi',
             },
-            str_contains($this->locale, 'en_') => match ($this->currencySymbol) {
+            str_contains($this->locale, 'en_') => str(match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
                 'Rp'  => ' rupiah',
@@ -181,7 +181,7 @@ class NumberHelpers
                 'CNY', 'CN¥' => ' chinese yuan',
                 'RUB', 'RU₽' => ' russian ruble',
                 'SAR' => ' saudi arabian riyal',
-            },
+            })->plural($this->numberOriginal)->toString(),
             str_contains($this->locale, 'ja_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
