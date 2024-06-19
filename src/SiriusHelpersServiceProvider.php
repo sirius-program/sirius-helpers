@@ -4,6 +4,7 @@ namespace SiriusProgram\SiriusHelpers;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Illuminate\Foundation\Console\AboutCommand;
 
 class SiriusHelpersServiceProvider extends PackageServiceProvider
 {
@@ -17,5 +18,10 @@ class SiriusHelpersServiceProvider extends PackageServiceProvider
         $package
             ->name('sirius-helpers')
             ->hasConfigFile();
+    }
+
+    public function bootingPackage(): void
+    {
+        AboutCommand::add('Environment', fn () => ['SiriusHelpers Version' => '1.0.1']);
     }
 }

@@ -31,7 +31,7 @@ return [
 
 Or you can easly change the currency locale through `.env` file.
 
-```bash
+```env
 CURRENCY_LOCALE=en_US
 ```
 
@@ -46,6 +46,18 @@ sirius();
 ```
 
 More detail can be found below.
+
+## Check Current Version
+
+You can check what version of SiriusHelpers you are using right now by run a command:
+```bash
+php artisan about
+```
+
+There is one line like this you can see under the `Environment` group:
+```bash
+SiriusHelpers Version ...................................................................................................................... 1.0.1
+```
 
 ## Changelog
 
@@ -381,7 +393,7 @@ This method will convert your datetime string into short month string. The provi
 echo sirius()->dateTime('2024-01-01')->toShortMonth();
 ```
 
-Code above will echo `January`
+Code above will echo `Jan`
 
 ## toLongDay()
 
@@ -482,7 +494,7 @@ The `$days` variable will be an array of this:
 ]
 ```
 
-The `getAllDays` method also accepts the 3rd argument `$startingDay`. The default value will be constant `START_WITH_SUNDAY`. You can set it to constant `START_WITH_MONDAY` to start with Monday.
+The `getAllDays` method also accepts the 3rd argument `$startingDay`. The default value will be constant `START_WITH_SUNDAY`. You can set it to constant `START_WITH_MONDAY` to make it start with Monday.
 
 ```php
 $days = DateTimeHelpers::getAllDays(startingDay: DateTimeHelpers::START_WITH_MONDAY);
