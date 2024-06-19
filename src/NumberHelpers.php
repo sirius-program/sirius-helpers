@@ -137,7 +137,7 @@ class NumberHelpers
     private function currencySymbolSpell(): string
     {
         return match (true) {
-            default => '',
+            default                            => '',
             str_contains($this->locale, 'id_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 

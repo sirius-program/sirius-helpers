@@ -99,7 +99,7 @@ class StringHelpers
         }
 
         $this->string = $this->phoneNumber->getNationalNumber();
-        $this->string = $zeroPrefix ? ('0' . $this->string) : ("+" . $this->phoneNumber->getCountryCode() . $this->string);
+        $this->string = $zeroPrefix ? ('0' . $this->string) : ('+' . $this->phoneNumber->getCountryCode() . $this->string);
 
         return $this;
     }

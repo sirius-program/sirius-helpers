@@ -28,7 +28,7 @@ class Sirius
 
     public function number(int|float|null $number = null): NumberHelpers
     {
-        return new NumberHelpers($number ?? (float)$this->string);
+        return new NumberHelpers($number ?? (float) $this->string);
     }
 
     public function string(?string $string = null): StringHelpers
