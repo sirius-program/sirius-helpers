@@ -2,9 +2,9 @@
 
 namespace SiriusProgram\SiriusHelpers;
 
+use Illuminate\Foundation\Console\AboutCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Illuminate\Foundation\Console\AboutCommand;
 
 class SiriusHelpersServiceProvider extends PackageServiceProvider
 {
