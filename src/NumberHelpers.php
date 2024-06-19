@@ -6,17 +6,17 @@ class NumberHelpers
 {
     private string $currencySymbol = '';
 
-    private string|int|float $numberOriginal;
+    private string|int|float $originalNumber;
 
     protected \NumberFormatter $formatter;
 
-    public function __construct(private string|int|float $number = '', private ?string $locale = null)
+    public function __construct(private string|int|float $number = '', private ?string $currencyLocale = null)
     {
-        $this->locale = $locale ?? config('sirius-helpers.currency_locale');
+        $this->currencyLocale = $currencyLocale ?? config('sirius-helpers.currency_locale');
 
-        $this->formatter = new \NumberFormatter($this->locale, \NumberFormatter::DECIMAL);
+        $this->formatter = new \NumberFormatter($this->currencyLocale, \NumberFormatter::DECIMAL);
 
-        $this->numberOriginal = $number;
+        $this->originalNumber = $number;
     }
 
     public function __toString(): string
@@ -28,7 +28,7 @@ class NumberHelpers
 
     public function getOriginal(): string|int|float
     {
-        return $this->numberOriginal;
+        return $this->originalNumber;
     }
 
     public function get(): string|int|float
@@ -42,37 +42,41 @@ class NumberHelpers
     {
         $this->number = $number;
 
-        $this->numberOriginal = $number;
+        $this->originalNumber = $number;
 
         return $this;
     }
 
-    public function setLocale(string $locale): static
+    public function setLocale(string $currencyLocale): static
     {
-        $this->locale = $locale;
+        $this->currencyLocale = $currencyLocale;
 
-        $this->formatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
+        $this->formatter = new \NumberFormatter($currencyLocale, \NumberFormatter::DECIMAL);
 
         return $this;
     }
 
     public function toInt(): static
     {
-        $this->number = str($this->number)->numbers()->toInt();
+        $this->number = str($this->originalNumber)->numbers()->toInt();
 
         return $this;
     }
 
     public function toFloat(): static
     {
-        $this->number = str($this->number)->numbers()->toFloat();
+        $this->number = str($this->originalNumber)->numbers()->toFloat();
 
         return $this;
     }
 
-    public function format(): static
+    public function format(?string $currencyLocale = null): static
     {
-        $this->number = $this->formatter->format($this->numberOriginal);
+        if (!is_null($currencyLocale)) {
+            $this->setLocale($currencyLocale);
+        }
+        
+        $this->number = $this->formatter->format($this->originalNumber);
 
         return $this;
     }
@@ -80,31 +84,39 @@ class NumberHelpers
     public function toRoman(): static
     {
         $this->setLocale('@numbers=roman');
-        $this->format($this->numberOriginal);
+        $this->format($this->originalNumber);
 
         return $this;
     }
 
-    public function toCurrency(): static
+    public function toCurrency(?string $currencyLocale = null): static
     {
-        $currencyFormatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
+        if (!is_null($currencyLocale)) {
+            $this->setLocale($currencyLocale);
+        }
+
+        $currencyFormatter = new \NumberFormatter($this->currencyLocale, \NumberFormatter::CURRENCY);
 
         $symbol = $currencyFormatter->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
 
         $this->currencySymbol = $symbol;
 
-        $this->number = $symbol . $this->format($this->numberOriginal);
+        $this->number = $symbol . $this->format($this->originalNumber);
 
         return $this;
     }
 
-    public function spell(): static
+    public function spell(?string $currencyLocale = null): static
     {
-        $spellFormatter = new \NumberFormatter($this->locale, \NumberFormatter::SPELLOUT);
+        if (!is_null($currencyLocale)) {
+            $this->setLocale($currencyLocale);
+        }
 
-        $this->number = $spellFormatter->format($this->numberOriginal) . $this->currencySymbolSpell();
+        $spellFormatter = new \NumberFormatter($this->currencyLocale, \NumberFormatter::SPELLOUT);
 
-        if (str_starts_with($this->locale, 'id_')) {
+        $this->number = $spellFormatter->format($this->originalNumber) . $this->currencySymbolSpell();
+
+        if (str_starts_with($this->currencyLocale, 'id_')) {
             $this->number = str($this->number)->replace('titik', 'koma')->replace('kosong', 'nol')->toString();
         }
 
@@ -138,7 +150,7 @@ class NumberHelpers
     {
         return match (true) {
             default                            => '',
-            str_contains($this->locale, 'id_') => match ($this->currencySymbol) {
+            str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
                 'Rp'  => ' rupiah',
@@ -160,7 +172,7 @@ class NumberHelpers
                 'RUB', 'RU₽' => ' ruble rusia',
                 'SAR' => ' riyal arab saudi',
             },
-            str_contains($this->locale, 'en_') => str(match ($this->currencySymbol) {
+            str_contains($this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
                 'Rp'  => ' rupiah',
@@ -181,8 +193,8 @@ class NumberHelpers
                 'CNY', 'CN¥' => ' chinese yuan',
                 'RUB', 'RU₽' => ' russian ruble',
                 'SAR' => ' saudi arabian riyal',
-            })->plural($this->numberOriginal)->toString(),
-            str_contains($this->locale, 'ja_') => match ($this->currencySymbol) {
+            })->plural($this->originalNumber)->toString(),
+            str_contains($this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
                 default => $this->currencySymbol,
 
                 'Rp'  => 'ルピア',

@@ -3,7 +3,7 @@
 if (!function_exists('sirius')) {
     function sirius(mixed $string = ''): SiriusProgram\SiriusHelpers\Sirius
     {
-        return new Sirius($string);
+        return new SiriusProgram\SiriusHelpers\Sirius($string);
     }
 }
 

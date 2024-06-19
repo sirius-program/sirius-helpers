@@ -126,7 +126,7 @@ Code above will echo the URL-safe format text: `MwTMh2laUQDG09O9ZsVCv2c8pON/3IlI
 
 ## toPhoneNumber(bool $zeroPrefix = false)
 
-This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on your config in the `app.locale`, if you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`.
+This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on your config in the `app.locale`, if you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`. This method relying on package [libphonenumber](https://github.com/googlei18n/libphonenumber) under the hood.
 
 ```php
 echo sirius()->string('+628123456789')->toPhoneNumber();
@@ -150,7 +150,7 @@ This method will convert your text into Laravel's Str instance
 
 ## Method Chaining
 
-Every method above return `$this`, so you can also do method chaining like this:
+Every method above (except for `toStr()`) return `$this`, so you can also chain the methods like this:
 ```php
 echo sirius()->string('+628123456789')
     ->toPhoneNumber() // +62 812-3456-789
@@ -159,10 +159,163 @@ echo sirius()->string('+628123456789')
     ->urlSafe() // OWb2zHt440dxKnH5jLkklg--
     ->urlUnsafe() // OWb2zHt440dxKnH5jLkklg==
     ->decrypt() // 08123456789
-    ->toStr() // this will convert the text into Laravel's Str instance
+    ->toStr(); // this will convert the text into Laravel's Str instance
+```
+
+## Dumping Everywhere
+
+You can do `dump()` or `dd()` in every method above.
+For example:
+```php
+echo sirius()->string('any text')
+    ->encrypt()
+    ->dump()
+    ->decrypt()
+    ->dd();
 ```
 
 # Number Helpers
 
+This helpers contains a lot of functions that can help you to manipulate numbers.
+
+## Usage
+
+You can use it from the Sirius instance:
+```php
+// use Sirius class
+$sirius = new Sirius();
+$helper = $sirius->number();
+// or use the helper function
+sirius()->number();
+```
+
+Or use it straight from the NumberHelpers instance:
+```php
+// use NumberHelpers class
+$helper = new NumberHelpers();
+// or use the helper function
+snumber();
+```
+
+There are 6 methods you can use to manipulate number:
+`toInt`, `toFloat`, `format`, `toRoman`, `toCurrency`, and `spell`
+
+## toInt()
+
+Simply saying, this method will convert your number into Integer.
+
+```php
+echo sirius()->number(1234.56)->toInt();
+```
+
+Code above will echo `1234`
+
+## toFloat()
+
+Simply saying, this method will convert your number into Float.
+
+```php
+echo sirius()->number('1234.56')->toFloat();
+```
+
+Code above will echo `1234.56`
+
+## format(?string $currencyLocale = null)
+
+This method will add delimiter to your number based on your provided `$currencyLocale` or currency locale you set on the config file. The default currency locale will be `id_ID` if you don't provide any locale or if you don't set it on the config file.
+
+```php
+echo sirius()->number(1234567.89)->format();
+```
+
+Code above will echo `1.234.567,89`
+
+```php
+echo sirius()->number(1234567.89)->format(currencyLocale: 'en_US');
+```
+
+Code above will echo `1,234,567.89`
+
+## toRoman()
+
+This method will convert your number into roman numerals.
+
+```php
+echo sirius()->number(1234)->toRoman();
+```
+
+Code above will echo `MCCXXXIV`
+
+## toCurrency(?string $currencyLocale = null)
+
+This method will convert your number into currency format. The default currency locale will be `id_ID` if you don't provide any locale or if you don't set it on the config file.
+
+```php
+echo sirius()->number(1234567.89)->toCurrency();
+```
+
+Code above will echo `Rp1.234.567,89`
+
+```php
+echo sirius()->number(1234567.89)->toCurrency(currencyLocale: 'en_US');
+```
+
+Code above will echo `$1,234,567.89`
+
+## spell(?string $currencyLocale = null)
+
+This method will spell out your number. The default currency locale will be `id_ID` if you don't provide any locale or if you don't set it on the config file. Also the language will be spelled out based that same locale.
+
+```php
+echo sirius()->number(1234567.89)->spell();
+```
+
+Code above will echo `satu juta dua ratus tiga puluh empat ribu lima ratus enam puluh tujuh koma delapan sembilan`
+
+```php
+echo sirius()->number(1234567.89)->spell(currencyLocale: 'en_US');
+```
+
+Code above will echo `one million two hundred thirty four thousand five hundred sixty seven point eight nine`
+
+If you chained this method after `toCurrency()` method, the result will be appended with the spelled currency symbol.
+
+```php
+echo sirius()->number(1234567.89)->toCurrency(currencyLocale: 'en_US')->spell();
+```
+
+Code above will echo `one million two hundred thirty four thousand five hundred sixty seven point eight nine dollars`
+
+## Get the Original Number
+
+You can always retrieve the original number.
+
+```php
+echo sirius()->number(10000.05)->toCurrency()->getOriginal();
+```
+
+Code above will echo `10000.05`
+
+## Method Chaining
+
+Every method above return `$this`, so you can also chain the methods like this:
+```php
+echo sirius()->number(10000.05)
+    ->toInt() // 10000
+    ->toCurrency() // Rp10.000
+    ->spell(); // sepuluh ribu rupiah
+```
+
+## Dumping Everywhere
+
+You can do `dump()` or `dd()` in every method above.
+For example:
+```php
+echo sirius()->number(10000.05)
+    ->toCurrency()
+    ->dump()
+    ->spell()
+    ->dd();
+```
 
 # DateTime Helpers
