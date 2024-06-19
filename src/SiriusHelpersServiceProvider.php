@@ -16,7 +16,6 @@ class SiriusHelpersServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('sirius-helpers')
-            ->hasConfigFile()
-            ->hasViews();
+            ->hasConfigFile();
     }
 }
