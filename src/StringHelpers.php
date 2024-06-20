@@ -13,8 +13,17 @@ class StringHelpers
 
     public function __toString(): string
     {
+        return $this->get();
+    }
+
+    // Getter
+
+    public function get(): string
+    {
         return $this->string;
     }
+
+    // Transformation
 
     public function of(string $string): static
     {
@@ -23,9 +32,7 @@ class StringHelpers
         return $this;
     }
 
-    // Transformation
-
-    public function toStr(): \Illuminate\Support\Str
+    public function toStr(): \Illuminate\Support\Stringable
     {
         return str($this->string);
     }
@@ -77,9 +84,9 @@ class StringHelpers
     {
         $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
 
-        $locale = config('app.locale');
+        $countryCode = config('sirius-helpers.country_code');
 
-        $this->phoneNumber = $formatter->parse($this->string, $locale);
+        $this->phoneNumber = $formatter->parse($this->string, $countryCode);
 
         if (!$formatter->isValidNumber($this->phoneNumber)) {
             throw new \InvalidArgumentException('Invalid phone number.', 500);
