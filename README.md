@@ -25,13 +25,15 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'country_code' => env('COUNTRY_CODE', 'ID'),
     'currency_locale' => env('CURRENCY_LOCALE', 'id_ID'),
 ];
 ```
 
-Or you can easly change the currency locale through `.env` file.
+Or you can easly change them through `.env` file.
 
 ```env
+COUNTRY_CODE=US
 CURRENCY_LOCALE=en_US
 ```
 
@@ -70,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ......................................................................... 1.0.1
+SiriusHelpers Version ................................................................ 1.1.0
 ```
 
 ## Changelog
