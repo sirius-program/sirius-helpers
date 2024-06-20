@@ -181,33 +181,33 @@ it('can retrieve list on months', function () {
 
     expect($months)
         ->toBe([
-            1 => 'January',
-            2 => 'February',
-            3 => 'March',
-            4 => 'April',
-            5 => 'May',
-            6 => 'June',
-            7 => 'July',
-            8 => 'August',
-            9 => 'September',
+            1  => 'January',
+            2  => 'February',
+            3  => 'March',
+            4  => 'April',
+            5  => 'May',
+            6  => 'June',
+            7  => 'July',
+            8  => 'August',
+            9  => 'September',
             10 => 'October',
             11 => 'November',
             12 => 'December',
         ]);
 
     $months = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllMonths(format: 'MMM');
-    
+
     expect($months)
         ->toBe([
-            1 => 'Jan',
-            2 => 'Feb',
-            3 => 'Mar',
-            4 => 'Apr',
-            5 => 'May',
-            6 => 'Jun',
-            7 => 'Jul',
-            8 => 'Aug',
-            9 => 'Sep',
+            1  => 'Jan',
+            2  => 'Feb',
+            3  => 'Mar',
+            4  => 'Apr',
+            5  => 'May',
+            6  => 'Jun',
+            7  => 'Jul',
+            8  => 'Aug',
+            9  => 'Sep',
             10 => 'Oct',
             11 => 'Nov',
             12 => 'Dec',
@@ -235,7 +235,7 @@ it('can retrieve list on days', function () {
         ]);
 
     $days = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllDays(format: 'EE', startingDay: SiriusProgram\SiriusHelpers\DateTimeHelpers::START_WITH_MONDAY);
-    
+
     expect($days)
         ->toBe([
             1 => 'Mon',

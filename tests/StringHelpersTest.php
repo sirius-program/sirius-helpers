@@ -59,7 +59,6 @@ it('can convert string to readable phone number', function () {
     expect($string)
         ->toBe('+62 812-3456-7890');
 
-
     $string = $sirius
         ->string('081234567890')
         ->toPhoneNumber(zeroPrefix: true)
