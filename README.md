@@ -47,6 +47,20 @@ sirius();
 
 More detail can be found below.
 
+## Testing
+
+To test this package, you can run the following command:
+
+```bash
+composer test
+```
+
+or
+
+```bash
+vendor/bin/pest
+```
+
 ## Check Current Version
 
 You can check what version of SiriusHelpers you are using right now by run a command:
@@ -56,7 +70,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ...................................................................................................................... 1.0.1
+SiriusHelpers Version ......................................................................... 1.0.1
 ```
 
 ## Changelog
@@ -73,7 +87,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 # String Helpers
 
-This helpers contains a lot of functions that can help you to manipulate strings.
+This helpers contains a lot of functions that can help you to manipulate string.
 
 ## Usage
 
@@ -97,7 +111,7 @@ sString();
 ```
 
 There are 7 methods you can use to manipulate string:
-`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `toPhoneNumber`, `sanitizePhoneNumber`, and `toStr`
+`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `toPhoneNumber`, `sanitizePhoneNumber`, and `toStr`.
 
 ## encrypt(?string $salt = null)
 
@@ -141,7 +155,7 @@ Code above will echo the URL-safe format text: `MwTMh2laUQDG09O9ZsVCv2c8pON/3IlI
 
 ## toPhoneNumber(bool $zeroPrefix = false)
 
-This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on your config in the `app.locale`, if you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`. This method relying on package [libphonenumber](https://github.com/googlei18n/libphonenumber) under the hood.
+This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on country code on your config in the `sirius-helper.country_code`, if you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`. This method relying on package [libphonenumber](https://github.com/googlei18n/libphonenumber) under the hood.
 
 ```php
 echo sirius()->string('+628123456789')->toPhoneNumber();
@@ -161,7 +175,7 @@ Code above will echo the sanitized phone number text: `08123456789`
 
 ## toStr()
 
-This method will convert your text into Laravel's Str instance
+This method will convert your text into Laravel's Stringable instance
 
 ## Method Chaining
 
@@ -174,7 +188,7 @@ echo sirius()->string('+628123456789')
     ->urlSafe() // OWb2zHt440dxKnH5jLkklg--
     ->urlUnsafe() // OWb2zHt440dxKnH5jLkklg==
     ->decrypt() // 08123456789
-    ->toStr(); // this will convert the text into Laravel's Str instance
+    ->toStr(); // will convert the text into Laravel's Stringable instance
 ```
 
 ## Dumping Everywhere
@@ -191,7 +205,7 @@ echo sirius()->string('any text')
 
 # Number Helpers
 
-This helpers contains a lot of functions that can help you to manipulate numbers.
+This helpers contains a lot of functions that can help you to manipulate number.
 
 ## Usage
 
@@ -215,7 +229,7 @@ sNumber();
 ```
 
 There are 6 methods you can use to manipulate number:
-`toInt`, `toFloat`, `format`, `toRoman`, `toCurrency`, and `spell`
+`toInt`, `toFloat`, `format`, `toRoman`, `toCurrency`, and `spell`.
 
 ## toInt()
 
@@ -293,7 +307,7 @@ Code above will echo `satu juta dua ratus tiga puluh empat ribu lima ratus enam 
 echo sirius()->number(1234567.89)->spell(currencyLocale: 'en_US');
 ```
 
-Code above will echo `one million two hundred thirty four thousand five hundred sixty seven point eight nine`
+Code above will echo `one million two hundred thirty-four thousand five hundred sixty-seven point eight nine`
 
 If you chained this method after `toCurrency()` method, the result will be appended with the spelled currency symbol.
 
@@ -301,7 +315,7 @@ If you chained this method after `toCurrency()` method, the result will be appen
 echo sirius()->number(1234567.89)->toCurrency(currencyLocale: 'en_US')->spell();
 ```
 
-Code above will echo `one million two hundred thirty four thousand five hundred sixty seven point eight nine dollars`
+Code above will echo `one million two hundred thirty-four thousand five hundred sixty-seven point eight nine dollars`
 
 ## Get the Original Number
 
@@ -361,7 +375,7 @@ sDateTime();
 ```
 
 There are 7 methods you can use to manipulate datetime string:
-`toDateTime`, `toCarbon`, `format`, `toLongMonth`, `toShortMonth`, `toLongDay`, and `toShortDay`
+`toDateTime`, `toCarbon`, `format`, `toLongMonth`, `toShortMonth`, `toLongDay`, and `toShortDay`.
 
 ## toDateTime(string $fromFormat = 'Y-m-d H:i:s')
 
