@@ -58,14 +58,14 @@ class NumberHelpers
 
     public function toInt(): static
     {
-        $this->number = str($this->originalNumber)->numbers()->toInt();
+        $this->number = str($this->originalNumber)->toInteger();
 
         return $this;
     }
 
     public function toFloat(): static
     {
-        $this->number = str($this->originalNumber)->numbers()->toFloat();
+        $this->number = str($this->originalNumber)->toFloat();
 
         return $this;
     }
@@ -83,8 +83,7 @@ class NumberHelpers
 
     public function toRoman(): static
     {
-        $this->setLocale('@numbers=roman');
-        $this->format($this->originalNumber);
+        $this->format('@numbers=roman');
 
         return $this;
     }
@@ -101,7 +100,7 @@ class NumberHelpers
 
         $this->currencySymbol = $symbol;
 
-        $this->number = $symbol . $this->format($this->originalNumber);
+        $this->number = $symbol . $this->format();
 
         return $this;
     }
