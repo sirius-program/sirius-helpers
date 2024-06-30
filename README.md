@@ -112,8 +112,8 @@ $helper = new StringHelpers();
 sString();
 ```
 
-There are 7 methods you can use to manipulate string:
-`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `toPhoneNumber`, `sanitizePhoneNumber`, and `toStr`.
+There are 8 methods you can use to manipulate string:
+`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `toPhoneNumber`, `sanitizePhoneNumber`, `toInitials`, and `toStr`.
 
 ## encrypt(?string $salt = null)
 
