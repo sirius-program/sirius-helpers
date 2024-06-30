@@ -110,7 +110,7 @@ class StringHelpers
     }
 
     /**
-     * @param int $length default '2', set to 0 to return all initials
+     * @param  int  $length  default '2', set to 0 to return all initials
      */
     public function toInitials(int $length = 2): static
     {
