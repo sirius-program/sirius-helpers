@@ -2,6 +2,11 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
+## 1.1.1
+
+- Add cent converter to NumberHelpers
+- Add setNullIfBlank to Sirius
+
 ## 1.1.0
 
 - Add country code config for phone number

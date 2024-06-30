@@ -76,6 +76,36 @@ it('can be converted into currency', function () {
         ->toBe('$1,234,567.89');
 });
 
+it('can be converted into cent', function () {
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+
+    $number = $sirius
+        ->number('1234567.89')
+        ->toCent()
+        ->get();
+
+    expect($number)
+        ->toBe('123.456.789');
+});
+
+it('can be converted from cent', function () {
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+
+    $number = $sirius
+        ->number(123456789)
+        ->fromCent();
+
+    expect($number->get())->toBe('1.234.567,89');
+    expect($number->getOriginal())->toBe(1234567.89);
+
+    $number = $sirius
+        ->number(123456789)
+        ->fromCent(impactOriginalNumber: false);
+
+    expect($number->get())->toBe('1.234.567,89');
+    expect($number->getOriginal())->toBe(123456789);
+});
+
 it('can spell out the number', function () {
     $sirius = new SiriusProgram\SiriusHelpers\Sirius();
 

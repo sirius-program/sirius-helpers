@@ -231,7 +231,7 @@ sNumber();
 ```
 
 There are 6 methods you can use to manipulate number:
-`toInt`, `toFloat`, `format`, `toRoman`, `toCurrency`, and `spell`.
+`toInt`, `toFloat`, `format`, `toRoman`, `toCurrency`, `toCent`, `fromCent`, and `spell`.
 
 ## toInt()
 
@@ -294,6 +294,26 @@ echo sirius()->number(1234567.89)->toCurrency(currencyLocale: 'en_US');
 ```
 
 Code above will echo `$1,234,567.89`
+
+## toCent()
+
+This method will convert your number into cent (times the given number by 100).
+
+```php
+echo sirius()->number(1234567.89)->toCent();
+```
+
+Code above will echo `123.456.789`
+
+## fromCent(bool $impactOriginalNumber = true)
+
+This method will devide the given number by 100. By default, this method's result will also impact the original number, if you want to keep the original number in cent, set the `$impactOriginalNumber` parameter to `false`.
+
+```php
+echo sirius()->number(123.456.789)->fromCent();
+```
+
+Code above will echo `1234567.89`
 
 ## spell(?string $currencyLocale = null)
 
@@ -528,3 +548,32 @@ The `$days` variable will be an array of this:
     7 => "Sunday",
 ]
 ```
+
+# Other Static Helpers
+
+There are 2 useful static methods that you can access from Sirius instance:
+`calculateDistanceInMeters`, and `setNullIfBlank`.
+
+## calculateDistanceInMeters(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo, float $earthRadius = 6371000): float
+
+This method will calculate the distance between two points of latitude and logitude in meters. The default `$earthRadius` will be `6371000` (in meters).
+
+for example:
+```php
+echo SiriusProgram\SiriusHelpers\Sirius::calculateDistanceInMeters(-7.3197956, 112.765537, -7.3231706, 112.7578611);
+```
+
+Code above will echo `926.0155020636498`
+
+## setNullIfBlank(mixed $data, bool $keepZero = false, bool $keepEmptyArray = false, bool $keepEmptyString = false): mixed
+
+This method will set null if the given data is either zero, empty array, or empty string. If the given data is in array (and it's not empty), this method will iterate and transform the data inside of it.
+
+for example:
+```php
+print_r(SiriusProgram\SiriusHelpers\Sirius::setNullIfBlank([0, 1, '', 2, null, 3, []]));
+```
+
+Code above will print `[null, 1, null, 2, null, 3, null]`
+
+you can keep zero as zero, empty array as empty array and empty string as empty string by setting the `$keepZero`, `$keepEmptyArray`, and/or `$keepEmptyString` parameter to `true`.

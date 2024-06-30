@@ -38,18 +38,43 @@ class Sirius
 
     // Other Helper
 
-    public static function calculateDistance(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo, float $earthRadius = 6371000): float
+    public static function calculateDistanceInMeters(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo, float $earthRadius = 6371000): float
     {
-        $latFrom = deg2rad($latitudeFrom);
-        $lonFrom = deg2rad($longitudeFrom);
-        $latTo = deg2rad($latitudeTo);
-        $lonTo = deg2rad($longitudeTo);
+        $latitudeFrom = deg2rad($latitudeFrom);
+        $longitudeFrom = deg2rad($longitudeFrom);
+        $latitudeTo = deg2rad($latitudeTo);
+        $longitudeTo = deg2rad($longitudeTo);
 
-        $latDelta = $latTo - $latFrom;
-        $lonDelta = $lonTo - $lonFrom;
+        $latitudeDelta = $latitudeTo - $latitudeFrom;
+        $longitudeDelta = $longitudeTo - $longitudeFrom;
 
-        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        $angle = 2 * asin(sqrt(pow(sin($latitudeDelta / 2), 2) + cos($latitudeFrom) * cos($latitudeTo) * pow(sin($longitudeDelta / 2), 2)));
 
         return $angle * $earthRadius;
+    }
+
+    public static function setNullIfBlank(mixed $data, bool $keepZero = false, bool $keepEmptyArray = false, bool $keepEmptyString = false): mixed
+    {
+        if ($keepZero && $data === 0) {
+            return $data;
+        }
+
+        if ($keepEmptyArray && $data === []) {
+            return $data;
+        }
+
+        if ($keepEmptyString && $data === '') {
+            return $data;
+        }
+
+        if (!is_array($data) || $data === []) {
+            $data = (!empty($data) || $data === false) ? $data : null;
+        } else {
+            foreach ($data as $key => $value) {
+                $data[$key] = self::setNullIfBlank($value, $keepZero, $keepEmptyArray, $keepEmptyString);
+            }
+        }
+
+        return $data;
     }
 }

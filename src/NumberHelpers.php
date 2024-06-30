@@ -6,6 +6,8 @@ class NumberHelpers
 {
     private string $currencySymbol = '';
 
+    private bool $isInCent = false;
+
     private string|int|float $originalNumber;
 
     protected \NumberFormatter $formatter;
@@ -76,7 +78,7 @@ class NumberHelpers
             $this->setLocale($currencyLocale);
         }
 
-        $this->number = $this->formatter->format($this->originalNumber);
+        $this->number = $this->formatter->format($this->isInCent ? $this->number : $this->originalNumber);
 
         return $this;
     }
@@ -101,6 +103,34 @@ class NumberHelpers
         $this->currencySymbol = $symbol;
 
         $this->number = $symbol . $this->format();
+
+        return $this;
+    }
+
+    public function toCent(): static
+    {
+        $this->isInCent = true;
+
+        $this->number = $this->originalNumber * 100;
+
+        $this->format();
+
+        return $this;
+    }
+
+    public function fromCent(bool $impactOriginalNumber = true): static
+    {
+        $this->isInCent = true;
+
+        $this->number = $this->originalNumber / 100;
+
+        if ($impactOriginalNumber) {
+            $this->isInCent = false;
+
+            $this->originalNumber = $this->number;
+        }
+
+        $this->format();
 
         return $this;
     }
@@ -147,74 +177,83 @@ class NumberHelpers
 
     private function currencySymbolSpell(): string
     {
-        return match (true) {
-            default                                    => '',
-            str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
-                default => $this->currencySymbol,
-
-                'Rp'  => ' rupiah',
-                '$'   => ' dolar',
-                '€'   => ' euro',
-                '£'   => ' pound',
-                '¥'   => ' yen',
-                '¥'   => ' yuan',
-                '₽'   => ' rubel',
-                'ر.س' => ' riyal',
-
-                'IDR' => ' rupiah indonesia',
-                'USD', 'US$' => ' dollar amerika',
-                'SGD', 'SG$' => ' dollar singapura',
-                'EUR', 'EU€' => ' euro',
-                'GBP', 'GB£' => ' pound',
-                'JPY', 'JP¥' => ' yen jepang',
-                'CNY', 'CN¥' => ' yuan tiongkok',
-                'RUB', 'RU₽' => ' ruble rusia',
-                'SAR' => ' riyal arab saudi',
+        return match ($this->isInCent) {
+            true => match (true) {
+                default                                    => '',
+                $this->currencySymbol == ''                => '',
+                str_contains($this->currencyLocale, 'id_') => 'sen',
+                str_contains($this->currencyLocale, 'en_') => 'cent',
+                str_contains($this->currencyLocale, 'ja_') => 'セント',
             },
-            str_contains($this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
-                default => $this->currencySymbol,
-
-                'Rp'  => ' rupiah',
-                '$'   => ' dollar',
-                '€'   => ' euro',
-                '£'   => ' pound',
-                '¥'   => ' yen',
-                '¥'   => ' yuan',
-                '₽'   => ' ruble',
-                'ر.س' => ' riyal',
-
-                'IDR' => ' indonesian rupiah',
-                'USD', 'US$' => ' united states dollar',
-                'SGD', 'SG$' => ' singaporean dollar',
-                'EUR', 'EU€' => ' euro',
-                'GBP', 'GB£' => ' pound',
-                'JPY', 'JP¥' => ' japanese yen',
-                'CNY', 'CN¥' => ' chinese yuan',
-                'RUB', 'RU₽' => ' russian ruble',
-                'SAR' => ' saudi arabian riyal',
-            })->plural($this->originalNumber)->toString(),
-            str_contains($this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
-                default => $this->currencySymbol,
-
-                'Rp'  => 'ルピア',
-                '$'   => 'ドル',
-                '€'   => 'ユーロ',
-                '£'   => 'ポンド',
-                '￥'   => '円',
-                '¥'   => '円',
-                '¥'   => '元',
-                '₽'   => 'ルーブル',
-                'ر.س' => 'リヤル',
-
-                'IDR' => 'インドネシアルピア',
-                'USD', 'US$' => '米ドル',
-                'SGD', 'SG$' => 'シンガポールドル',
-                'EUR', 'EU€' => 'ユーロ',
-                'GBP', 'GB£' => 'ポンド',
-                'JPY', 'JP¥' => '日本円',
-                'CNY', 'CN¥' => '中国元',
-                'RUB', 'RU₽' => 'ロシアルーブル',
-                'SAR' => 'サウジアラビアリヤル',
+            false => match (true) {
+                default                                    => '',
+                str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
+                    default => $this->currencySymbol,
+    
+                    'Rp'  => ' rupiah',
+                    '$'   => ' dolar',
+                    '€'   => ' euro',
+                    '£'   => ' pound',
+                    '¥'   => ' yen',
+                    '¥'   => ' yuan',
+                    '₽'   => ' rubel',
+                    'ر.س' => ' riyal',
+    
+                    'IDR' => ' rupiah indonesia',
+                    'USD', 'US$' => ' dollar amerika',
+                    'SGD', 'SG$' => ' dollar singapura',
+                    'EUR', 'EU€' => ' euro',
+                    'GBP', 'GB£' => ' pound',
+                    'JPY', 'JP¥' => ' yen jepang',
+                    'CNY', 'CN¥' => ' yuan tiongkok',
+                    'RUB', 'RU₽' => ' ruble rusia',
+                    'SAR' => ' riyal arab saudi',
+                },
+                str_contains($this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
+                    default => $this->currencySymbol,
+    
+                    'Rp'  => ' rupiah',
+                    '$'   => ' dollar',
+                    '€'   => ' euro',
+                    '£'   => ' pound',
+                    '¥'   => ' yen',
+                    '¥'   => ' yuan',
+                    '₽'   => ' ruble',
+                    'ر.س' => ' riyal',
+    
+                    'IDR' => ' indonesian rupiah',
+                    'USD', 'US$' => ' united states dollar',
+                    'SGD', 'SG$' => ' singaporean dollar',
+                    'EUR', 'EU€' => ' euro',
+                    'GBP', 'GB£' => ' pound',
+                    'JPY', 'JP¥' => ' japanese yen',
+                    'CNY', 'CN¥' => ' chinese yuan',
+                    'RUB', 'RU₽' => ' russian ruble',
+                    'SAR' => ' saudi arabian riyal',
+                })->plural($this->originalNumber)->toString(),
+                str_contains($this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
+                    default => $this->currencySymbol,
+    
+                    'Rp'  => 'ルピア',
+                    '$'   => 'ドル',
+                    '€'   => 'ユーロ',
+                    '£'   => 'ポンド',
+                    '￥'   => '円',
+                    '¥'   => '円',
+                    '¥'   => '元',
+                    '₽'   => 'ルーブル',
+                    'ر.س' => 'リヤル',
+    
+                    'IDR' => 'インドネシアルピア',
+                    'USD', 'US$' => '米ドル',
+                    'SGD', 'SG$' => 'シンガポールドル',
+                    'EUR', 'EU€' => 'ユーロ',
+                    'GBP', 'GB£' => 'ポンド',
+                    'JPY', 'JP¥' => '日本円',
+                    'CNY', 'CN¥' => '中国元',
+                    'RUB', 'RU₽' => 'ロシアルーブル',
+                    'SAR' => 'サウジアラビアリヤル',
+                },
             },
         };
     }
