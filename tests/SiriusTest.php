@@ -6,7 +6,7 @@ it('can calculate distance in meters', function () {
     expect($distance)->toBe(926.0155020636498);
 });
 
-it('can set null if blank', function() {
+it('can set null if blank', function () {
     $data = SiriusProgram\SiriusHelpers\Sirius::setNullIfBlank(null);
 
     expect($data)->toBeNull();

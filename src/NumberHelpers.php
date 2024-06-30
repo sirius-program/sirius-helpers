@@ -189,7 +189,7 @@ class NumberHelpers
                 default                                    => '',
                 str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
                     default => $this->currencySymbol,
-    
+
                     'Rp'  => ' rupiah',
                     '$'   => ' dolar',
                     '€'   => ' euro',
@@ -198,7 +198,7 @@ class NumberHelpers
                     '¥'   => ' yuan',
                     '₽'   => ' rubel',
                     'ر.س' => ' riyal',
-    
+
                     'IDR' => ' rupiah indonesia',
                     'USD', 'US$' => ' dollar amerika',
                     'SGD', 'SG$' => ' dollar singapura',
@@ -211,7 +211,7 @@ class NumberHelpers
                 },
                 str_contains($this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
                     default => $this->currencySymbol,
-    
+
                     'Rp'  => ' rupiah',
                     '$'   => ' dollar',
                     '€'   => ' euro',
@@ -220,7 +220,7 @@ class NumberHelpers
                     '¥'   => ' yuan',
                     '₽'   => ' ruble',
                     'ر.س' => ' riyal',
-    
+
                     'IDR' => ' indonesian rupiah',
                     'USD', 'US$' => ' united states dollar',
                     'SGD', 'SG$' => ' singaporean dollar',
@@ -233,7 +233,7 @@ class NumberHelpers
                 })->plural($this->originalNumber)->toString(),
                 str_contains($this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
                     default => $this->currencySymbol,
-    
+
                     'Rp'  => 'ルピア',
                     '$'   => 'ドル',
                     '€'   => 'ユーロ',
@@ -243,7 +243,7 @@ class NumberHelpers
                     '¥'   => '元',
                     '₽'   => 'ルーブル',
                     'ر.س' => 'リヤル',
-    
+
                     'IDR' => 'インドネシアルピア',
                     'USD', 'US$' => '米ドル',
                     'SGD', 'SG$' => 'シンガポールドル',
