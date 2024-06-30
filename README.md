@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.0
+SiriusHelpers Version ................................................................ 1.1.2
 ```
 
 ## Changelog
@@ -174,6 +174,22 @@ echo sirius()->string('+62 812-3456-789')->sanitizePhoneNumber(zeroPrefix: true)
 ```
 
 Code above will echo the sanitized phone number text: `08123456789`
+
+## toInitials(int $length = 2)
+
+This method will convert your text into it's initials. The default length will be `2`, you can set it to `0` to return all the initials.
+
+```php
+echo sirius()->string('Sirius Helpers by Sirius Program')->toInitials();
+```
+
+Code above will echo the initials text: `SH`
+
+```php
+echo sirius()->string('Sirius Helpers by Sirius Program')->toInitials(length: 0);
+```
+
+Code above will echo the initials text: `SHBSP`
 
 ## toStr()
 

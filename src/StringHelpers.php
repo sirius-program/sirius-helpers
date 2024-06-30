@@ -109,6 +109,28 @@ class StringHelpers
         return $this;
     }
 
+    /**
+     * @param int $length default '2', set to 0 to return all initials
+     */
+    public function toInitials(int $length = 2): static
+    {
+        $words = explode(' ', $this->string, $length > 0 ? $length : PHP_INT_MAX);
+
+        $initials = '';
+
+        foreach ($words as $word) {
+            $initials .= $word[0];
+        }
+
+        if ($length > 0 && strlen($initials) < $length) {
+            $initials = str_pad($initials, $length, ' ');
+        }
+
+        $this->string = strtoupper($initials);
+
+        return $this;
+    }
+
     public function dump(): static
     {
         if (function_exists('dump')) {

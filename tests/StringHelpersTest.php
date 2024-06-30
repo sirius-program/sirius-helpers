@@ -88,6 +88,28 @@ it('can sanitize phone number', function () {
         ->toBe('081234567890');
 });
 
+it('can convert string into it\'s initials', function () {
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+
+    $original = 'Sirius Helpers by Sirius Program';
+
+    $string = $sirius
+        ->string($original)
+        ->toInitials()
+        ->get();
+
+    expect($string)
+        ->toBe('SH');
+
+    $string = $sirius
+        ->string($original)
+        ->toInitials(length: 0)
+        ->get();
+
+    expect($string)
+        ->toBe('SHBSP');
+});
+
 it('can be coverted into laravel\'s stringable instance', function () {
     $sirius = new SiriusProgram\SiriusHelpers\Sirius();
 
