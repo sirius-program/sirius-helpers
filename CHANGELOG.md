@@ -2,6 +2,11 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
+## 1.1.3
+
+- Add isPartOfPhoneNumber() to StringHelpers
+- Change sanitizePhoneNumber() so it can sanitize even if the given string is not a valid phone number
+
 ## 1.1.2
 
 - Add toInitials() to StringHelpers

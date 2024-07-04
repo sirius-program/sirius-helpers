@@ -48,6 +48,49 @@ it('can make url-safe string unsafe again', function () {
         ->toBe('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=');
 });
 
+it('can check is the given string is part of phone number', function () {
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+
+    $string = $sirius
+        ->string('081234')
+        ->isPartOfPhoneNumber();
+
+    expect($string)
+        ->toBeTrue();
+
+    $string = $sirius
+        ->string('+6281234')
+        ->isPartOfPhoneNumber();
+
+    expect($string)
+        ->toBeTrue();
+
+    $string = $sirius
+        ->string('+62 812-34')
+        ->isPartOfPhoneNumber();
+
+    expect($string)
+        ->toBeTrue();
+
+    $string = $sirius
+        ->string('6281234')
+        ->isPartOfPhoneNumber();
+
+    expect($string)
+        ->toBeTrue();
+
+    $string = $sirius
+        ->string('abc')
+        ->isPartOfPhoneNumber();
+
+    $string = $sirius
+        ->string('+-')
+        ->isPartOfPhoneNumber();
+
+    expect($string)
+        ->toBeFalse();
+});
+
 it('can convert string to readable phone number', function () {
     $sirius = new SiriusProgram\SiriusHelpers\Sirius();
 

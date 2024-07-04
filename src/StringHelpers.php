@@ -80,6 +80,16 @@ class StringHelpers
         return $this;
     }
 
+    public function isPartOfPhoneNumber(): bool
+    {
+        $string = str($this->string)->remove('(')->remove(')')->remove('+')->remove('-')->remove(' ')->toString();
+        if (preg_match('/^[0-9]{2,}$/', $string)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function toPhoneNumber(bool $zeroPrefix = false): static
     {
         $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -100,7 +110,11 @@ class StringHelpers
     public function sanitizePhoneNumber(bool $zeroPrefix = false): static
     {
         if (empty($this->phoneNumber)) {
-            $this->toPhoneNumber($zeroPrefix);
+            $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+
+            $countryCode = config('sirius-helpers.country_code');
+
+            $this->phoneNumber = $formatter->parse($this->string, $countryCode);
         }
 
         $this->string = $this->phoneNumber->getNationalNumber();

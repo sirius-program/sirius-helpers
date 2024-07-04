@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.2
+SiriusHelpers Version ................................................................ 1.1.3
 ```
 
 ## Changelog
@@ -112,8 +112,8 @@ $helper = new StringHelpers();
 sString();
 ```
 
-There are 8 methods you can use to manipulate string:
-`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `toPhoneNumber`, `sanitizePhoneNumber`, `toInitials`, and `toStr`.
+There are 9 methods you can use to manipulate string:
+`encrypt`, `decrypt`, `urlSafe`, `urlUnsafe`, `isPartOfPhoneNumber`, `toPhoneNumber`, `sanitizePhoneNumber`, `toInitials`, and `toStr`.
 
 ## encrypt(?string $salt = null)
 
@@ -154,6 +154,22 @@ echo sirius()->string('MwTMh2laUQDG09O9ZsVCv2c8pON_3IlIHf.8Dq55gkg-')->urlUnsafe
 ```
 
 Code above will echo the URL-safe format text: `MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=`
+
+## isPartOfPhoneNumber(): bool
+
+This method will check is the given string is part of phone number. It will remove plus signs (+), minus signs (-), parentheses, and spaces from the given string and check if the rest of the string is only contain number it will returns true, otherwise false.
+
+```php
+print_r(sirius()->string('+62 812-3')->isPartOfPhoneNumber())
+```
+
+Code above will return `true`
+
+```php
+print_r(sirius()->string('+62 812-3aa')->isPartOfPhoneNumber())
+```
+
+Code above will return `false`
 
 ## toPhoneNumber(bool $zeroPrefix = false)
 
@@ -197,7 +213,7 @@ This method will convert your text into Laravel's Stringable instance
 
 ## Method Chaining
 
-Every method above (except for `toStr()`) return `$this`, so you can also chain the methods like this:
+Every method above (except for `isPartOfPhoneNumber()` and `toStr()`) return `$this`, so you can also chain the methods like this:
 ```php
 echo sirius()->string('+628123456789')
     ->toPhoneNumber() // +62 812-3456-789
