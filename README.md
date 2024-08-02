@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.3
+SiriusHelpers Version ................................................................ 1.1.4
 ```
 
 ## Changelog
@@ -171,9 +171,9 @@ print_r(sirius()->string('+62 812-3aa')->isPartOfPhoneNumber())
 
 Code above will return `false`
 
-## toPhoneNumber(bool $zeroPrefix = false)
+## toPhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null)
 
-This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on country code on your config in the `sirius-helper.country_code`, if you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`. This method relying on package [libphonenumber](https://github.com/googlei18n/libphonenumber) under the hood.
+This method will takes any phone number string, parses it, validates it, and formats it into more readable phone number style format. The default format will use a plus with country calling code prefix based on country code you set on the second parameter, or if it's null it will use the country code on your config in the `sirius-helper.country_code`. If you want the formatted string prefixed with zero, set the `$zeroPrefix` parameter to `true`. This method relying on package [libphonenumber](https://github.com/googlei18n/libphonenumber) under the hood.
 
 ```php
 echo sirius()->string('+628123456789')->toPhoneNumber();
@@ -181,7 +181,7 @@ echo sirius()->string('+628123456789')->toPhoneNumber();
 
 Code above will echo the readable phone number text: `+62 812-3456-789`
 
-## sanitizePhoneNumber(bool $zeroPrefix = false)
+## sanitizePhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null)
 
 This method will takes any phone number string, sanitizes it, so you will get the 'only number' text from the text you provide.
 

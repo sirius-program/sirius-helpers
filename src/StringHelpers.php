@@ -90,11 +90,11 @@ class StringHelpers
         return false;
     }
 
-    public function toPhoneNumber(bool $zeroPrefix = false): static
+    public function toPhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null): static
     {
         $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
 
-        $countryCode = config('sirius-helpers.country_code');
+        $countryCode = $countryCode ?? config('sirius-helpers.country_code');
 
         $this->phoneNumber = $formatter->parse($this->string, $countryCode);
 
@@ -107,12 +107,12 @@ class StringHelpers
         return $this;
     }
 
-    public function sanitizePhoneNumber(bool $zeroPrefix = false): static
+    public function sanitizePhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null): static
     {
         if (empty($this->phoneNumber)) {
             $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
 
-            $countryCode = config('sirius-helpers.country_code');
+            $countryCode = $countryCode ?? config('sirius-helpers.country_code');
 
             $this->phoneNumber = $formatter->parse($this->string, $countryCode);
         }

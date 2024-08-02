@@ -2,6 +2,10 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
+## 1.1.4
+
+- Add parameter countryCode to toPhoneNumber() and sanitizePhoneNumber() methods.
+
 ## 1.1.3
 
 - Add isPartOfPhoneNumber() to StringHelpers

@@ -109,6 +109,22 @@ it('can convert string to readable phone number', function () {
 
     expect($string)
         ->toBe('0812-3456-7890');
+
+    $string = $sirius
+        ->string('0577771917')
+        ->toPhoneNumber(countryCode: 'JP')
+        ->get();
+
+    expect($string)
+        ->toBe('+81 577-77-1917');
+
+    $string = $sirius
+        ->string('+81577771917')
+        ->toPhoneNumber(zeroPrefix: true, countryCode: 'JP')
+        ->get();
+
+    expect($string)
+        ->toBe('0577-77-1917');
 });
 
 it('can sanitize phone number', function () {
