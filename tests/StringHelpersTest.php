@@ -1,7 +1,7 @@
 <?php
 
 it('can encrypt', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('text you want to encrypt @ 123')
@@ -13,7 +13,7 @@ it('can encrypt', function () {
 });
 
 it('can decrypt', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=')
@@ -25,7 +25,7 @@ it('can decrypt', function () {
 });
 
 it('can make url-safe string', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=')
@@ -37,7 +37,7 @@ it('can make url-safe string', function () {
 });
 
 it('can make url-safe string unsafe again', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON_3IlIHf.8Dq55gkg-')
@@ -49,7 +49,7 @@ it('can make url-safe string unsafe again', function () {
 });
 
 it('can check is the given string is part of phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('081234')
@@ -92,7 +92,7 @@ it('can check is the given string is part of phone number', function () {
 });
 
 it('can convert string to readable phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('081234567890')
@@ -128,7 +128,7 @@ it('can convert string to readable phone number', function () {
 });
 
 it('can sanitize phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius
         ->string('+62 812-3456-7890')
@@ -148,7 +148,7 @@ it('can sanitize phone number', function () {
 });
 
 it('can convert string into it\'s initials', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $original = 'Sirius Helpers by Sirius Program';
 
@@ -170,7 +170,7 @@ it('can convert string into it\'s initials', function () {
 });
 
 it('can be coverted into laravel\'s stringable instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $str = str('this is sirius helper');
 
@@ -186,7 +186,7 @@ it('can be coverted into laravel\'s stringable instance', function () {
 });
 
 it('can chain the methods', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $string = $sirius->string('this is sirius helper');
     expect($string->get())->toBe('this is sirius helper');

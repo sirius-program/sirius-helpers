@@ -1,7 +1,7 @@
 <?php
 
 it('can be converted into int', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('123.45')
@@ -13,7 +13,7 @@ it('can be converted into int', function () {
 });
 
 it('can be converted into float', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('123.45')
@@ -25,7 +25,7 @@ it('can be converted into float', function () {
 });
 
 it('can be formatted', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -45,7 +45,7 @@ it('can be formatted', function () {
 });
 
 it('can be converted into roman numerals', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234')
@@ -57,7 +57,7 @@ it('can be converted into roman numerals', function () {
 });
 
 it('can be converted into currency', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -77,7 +77,7 @@ it('can be converted into currency', function () {
 });
 
 it('can be converted into cent', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -89,7 +89,7 @@ it('can be converted into cent', function () {
 });
 
 it('can be converted from cent', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number(123456789)
@@ -107,7 +107,7 @@ it('can be converted from cent', function () {
 });
 
 it('can spell out the number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -127,7 +127,7 @@ it('can spell out the number', function () {
 });
 
 it('can spell out the currency with it\'s symbol', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -149,7 +149,7 @@ it('can spell out the currency with it\'s symbol', function () {
 });
 
 it('can get the original number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -161,7 +161,7 @@ it('can get the original number', function () {
 });
 
 it('can chain the methods', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $number = $sirius->number('1234567.89');
     expect($number->get())->toBe(1234567.89);

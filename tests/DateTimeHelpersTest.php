@@ -1,7 +1,7 @@
 <?php
 
 it('can be converted into php\'s datetime instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toDateTime()
@@ -12,7 +12,7 @@ it('can be converted into php\'s datetime instance', function () {
 });
 
 it('can be converted into nesbot\'s carbon instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toCarbon()
@@ -23,7 +23,7 @@ it('can be converted into nesbot\'s carbon instance', function () {
 });
 
 it('can be formatted', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toDateTime()
@@ -35,7 +35,7 @@ it('can be formatted', function () {
 });
 
 it('can be converted into long month', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toLongMonth()
@@ -69,7 +69,7 @@ it('can be converted into long month', function () {
 });
 
 it('can be converted into short month', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toShortMonth()
@@ -103,7 +103,7 @@ it('can be converted into short month', function () {
 });
 
 it('can be converted into long day', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toLongDay()
@@ -137,7 +137,7 @@ it('can be converted into long day', function () {
 });
 
 it('can be converted into short day', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius();
+    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toShortDay()
