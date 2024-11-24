@@ -125,11 +125,22 @@ class StringHelpers
             $this->string = $this->phoneNumber->getNationalNumber();
             $this->string = $zeroPrefix ? ('0' . $this->string) : ('+' . $this->phoneNumber->getCountryCode() . $this->string);
         } catch (\Throwable $th) {
-            $this->string = str($this->string)->remove('(')->remove(')')->remove('+')->remove('-')->remove(' ')->toString();
+            $dailingCode = Sirius::getCountryDetail($countryCode)['dailingCode'];
+
+            $this->string = str($this->string)->remove('(')->remove(')')->remove('-')->remove(' ')->toString();
+
+            if (str_starts_with($this->string, 0)) {
+                $this->string = substr($this->string, 0, 1);
+            }
+
+            if (str_starts_with($this->string, $dailingCode)) {
+                $this->string = str_replace($dailingCode, '', $this->string);
+            }
+
             if ($zeroPrefix) {
                 $this->string = 0 . $this->string;
             } else {
-                $this->string = Sirius::getCountryDetail($countryCode)['dailingCode'] . $this->string;
+                $this->string = $dailingCode . $this->string;
             }
         }
 
