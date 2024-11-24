@@ -35,5 +35,5 @@ it('can set null if blank', function () {
 it('can can get a country detail', function () {
     $detail = SiriusProgram\SiriusHelpers\Sirius::getCountryDetail('ID');
 
-    expect($detail)->toBe(['dailingCode' => '+62']);
+    expect($detail)->toBe(['code' => 'ID', 'name' => 'Indonesia', 'dailingCode' => '+62']);
 });

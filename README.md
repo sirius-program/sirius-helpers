@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.6
+SiriusHelpers Version ................................................................ 1.1.7
 ```
 
 ## Changelog
@@ -612,13 +612,13 @@ you can keep zero as zero, empty array as empty array and empty string as empty 
 
 ## getCountryDetail(string $countryCode): array
 
-This method will hit an HTTP request to restcountries.com to get a various country detail in array, such as a dailing code.
+This method will hit an HTTP request to restcountries.com to get a various country detail in array, such as name and dailing code.
 
 for example:
 ```php
 print_r(SiriusProgram\SiriusHelpers\Sirius::getCountryDetail('ID'));
 ```
 
-Code above will print `['dailingCode' => '+62']`
+Code above will print `['code' => 'ID', 'name' => 'Indonesia', 'dailingCode' => '+62']`
 
 This request is cached forever with the name `country-detail-$countryCode`, so if you find that the data you get from this request is not the same as in restcountries.com, try forget the cache first.

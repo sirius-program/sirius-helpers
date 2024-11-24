@@ -2,17 +2,23 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
-## 1.1.6 - 2024-11-24
+## 1.1.7
 
-**Full Changelog**: https://github.com/sirius-program/sirius-helpers/compare/1.1.5...1.1.6
+- Add code and name country to getCountryDetail() helper
 
-## 1.1.5 - 2024-11-24
+## 1.1.6
 
-**Full Changelog**: https://github.com/sirius-program/sirius-helpers/compare/1.1.4...1.1.5
+- Optimize the sanitizePhoneNumber() helper
+
+## 1.1.5
+
+- Add getCountryDetail() to Sirius static helpers
+- Update dependency for testing through GitHub Action
+- Optimize the sanitizePhoneNumber() helper
 
 ## 1.1.4
 
-- Add parameter countryCode to toPhoneNumber() and sanitizePhoneNumber() methods.
+- Add parameter countryCode to toPhoneNumber() and sanitizePhoneNumber() methods
 
 ## 1.1.3
 
@@ -37,4 +43,4 @@ All notable changes to `sirius-helpers` will be documented in this file.
 
 ## 1.0.0
 
-- Initial release.
+- Initial release

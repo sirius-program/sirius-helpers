@@ -91,6 +91,12 @@ class Sirius
         });
 
         return [
+            'code' => $country->cca2,
+            'name' => match (config('app.locale')) {
+                default => $country->name->common,
+                'ja'    => $country->translations?->jpn?->common ?? $country->name->common,
+                'id'    => $country->translations?->ind?->common ?? $country->name->common,
+            },
             'dailingCode' => collect($country->idd)->flatten()->implode(''),
         ];
     }
