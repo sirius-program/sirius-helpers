@@ -2,6 +2,10 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
+## 1.1.5 - 2024-11-24
+
+**Full Changelog**: https://github.com/sirius-program/sirius-helpers/compare/1.1.4...1.1.5
+
 ## 1.1.4
 
 - Add parameter countryCode to toPhoneNumber() and sanitizePhoneNumber() methods.
