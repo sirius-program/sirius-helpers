@@ -23,6 +23,11 @@ class StringHelpers
         return $this->string;
     }
 
+    public function toString(): string
+    {
+        return $this->get();
+    }
+
     // Transformation
 
     public function of(string $string): static
@@ -109,16 +114,24 @@ class StringHelpers
 
     public function sanitizePhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null): static
     {
-        if (empty($this->phoneNumber)) {
-            $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+        $countryCode = $countryCode ?? config('sirius-helpers.country_code');
 
-            $countryCode = $countryCode ?? config('sirius-helpers.country_code');
+        try {
+            if (empty($this->phoneNumber)) {
+                $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+                $this->phoneNumber = $formatter->parse($this->string, $countryCode);
+            }
 
-            $this->phoneNumber = $formatter->parse($this->string, $countryCode);
+            $this->string = $this->phoneNumber->getNationalNumber();
+            $this->string = $zeroPrefix ? ('0' . $this->string) : ('+' . $this->phoneNumber->getCountryCode() . $this->string);
+        } catch (\Throwable $th) {
+            $this->string = str($this->string)->remove('(')->remove(')')->remove('+')->remove('-')->remove(' ')->toString();
+            if ($zeroPrefix) {
+                $this->string = 0 . $this->string;
+            } else {
+                $this->string = Sirius::getCountryDetail($countryCode)['dailingCode'] . $this->string;
+            }
         }
-
-        $this->string = $this->phoneNumber->getNationalNumber();
-        $this->string = $zeroPrefix ? ('0' . $this->string) : ('+' . $this->phoneNumber->getCountryCode() . $this->string);
 
         return $this;
     }

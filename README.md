@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.4
+SiriusHelpers Version ................................................................ 1.1.5
 ```
 
 ## Changelog
@@ -609,3 +609,16 @@ print_r(SiriusProgram\SiriusHelpers\Sirius::setNullIfBlank([0, 1, '', 2, null, 3
 Code above will print `[null, 1, null, 2, null, 3, null]`
 
 you can keep zero as zero, empty array as empty array and empty string as empty string by setting the `$keepZero`, `$keepEmptyArray`, and/or `$keepEmptyString` parameter to `true`.
+
+## getCountryDetail(string $countryCode): array
+
+This method will hit an HTTP request to restcountries.com to get a various country detail in array, such as a dailing code.
+
+for example:
+```php
+print_r(SiriusProgram\SiriusHelpers\Sirius::getCountryDetail('ID'));
+```
+
+Code above will print `['dailingCode' => '+62']`
+
+This request is cached forever with the name `country-detail-$countryCode`, so if you find that the data you get from this request is not the same as in restcountries.com, try forget the cache first.

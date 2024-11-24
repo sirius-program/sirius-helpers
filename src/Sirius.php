@@ -77,4 +77,21 @@ class Sirius
 
         return $data;
     }
+
+    public static function getCountryDetail(string $countryCode): array
+    {
+        $country = \Illuminate\Support\Facades\Cache::rememberForever("country-detail-$countryCode", function () use ($countryCode) {
+            $response = \Illuminate\Support\Facades\Http::get("https://restcountries.com/v3.1/alpha/$countryCode");
+
+            if ($response->failed()) {
+                throw new \Exception('failed to get the country detail');
+            }
+
+            return json_decode($response->body())[0];
+        });
+
+        return [
+            'dailingCode' => collect($country->idd)->flatten()->implode(''),
+        ];
+    }
 }
