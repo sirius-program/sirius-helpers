@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.5
+SiriusHelpers Version ................................................................ 1.1.6
 ```
 
 ## Changelog
