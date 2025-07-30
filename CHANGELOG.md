@@ -2,6 +2,10 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
+## 1.1.8 - 2025-07-30
+
+**Full Changelog**: https://github.com/sirius-program/sirius-helpers/compare/1.1.7...1.1.8
+
 ## 1.1.7
 
 - Add code and name country to getCountryDetail() helper
