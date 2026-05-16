@@ -2,10 +2,11 @@
 
 All notable changes to `sirius-helpers` will be documented in this file.
 
-## 1.1.9 - 2026-05-16
+## 1.2.0 - 2026-05-16
 
 - Implement rector and peck configuration for code consistency
 - Add support for Laravel 13
+- Add new Array Helper
 
 ## 1.1.8 - 2025-07-30
 

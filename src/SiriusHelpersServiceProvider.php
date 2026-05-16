@@ -24,6 +24,6 @@ class SiriusHelpersServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
-        AboutCommand::add('Environment', fn (): array => ['SiriusHelpers Version' => '1.1.9']);
+        AboutCommand::add('Environment', fn (): array => ['SiriusHelpers Version' => '1.2.0']);
     }
 }

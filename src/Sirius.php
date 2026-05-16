@@ -10,36 +10,41 @@ use Illuminate\Support\Facades\Http;
 
 class Sirius implements \Stringable
 {
-    public function __construct(private mixed $string = '')
+    public function __construct(private mixed $data = '')
     {
         //
     }
 
     public function __toString(): string
     {
-        return (string) $this->string;
+        return (string) $this->data;
     }
 
-    public function of(mixed $string): static
+    public function of(mixed $data): static
     {
-        $this->string = $string;
+        $this->data = $data;
 
         return $this;
     }
 
+    public function array(?array $array = null): ArrayHelpers
+    {
+        return new ArrayHelpers($array ?? $this->data);
+    }
+
     public function dateTime(string|int|\DateTime|Carbon|null $datetime = null): DateTimeHelpers
     {
-        return new DateTimeHelpers($datetime ?? $this->string);
+        return new DateTimeHelpers($datetime ?? $this->data);
     }
 
     public function number(int|float|null $number = null): NumberHelpers
     {
-        return new NumberHelpers($number ?? (float) $this->string);
+        return new NumberHelpers($number ?? (float) $this->data);
     }
 
-    public function string(?string $string = null): StringHelpers
+    public function string(?string $data = null): StringHelpers
     {
-        return new StringHelpers($string ?? $this->string);
+        return new StringHelpers($data ?? $this->data);
     }
 
     // Other Helper

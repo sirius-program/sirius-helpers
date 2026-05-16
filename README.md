@@ -72,7 +72,7 @@ php artisan about
 
 There is one line like this you can see under the `Environment` group:
 ```bash
-SiriusHelpers Version ................................................................ 1.1.9
+SiriusHelpers Version ................................................................ 1.2.0
 ```
 
 ## Changelog
@@ -514,6 +514,65 @@ echo sirius()->dateTime('2024-01-01 01:01:01')
     ->format('Y-m-d')
     ->dump()
     ->toLongMonth()
+    ->dd()
+```
+
+# Array Helpers
+
+This helpers contains a function that can help you to manipulate array.
+
+## Usage
+
+You can use it from the Sirius instance:
+```php
+// use Sirius class
+$sirius = new Sirius();
+$helper = $sirius->array();
+
+// or use the helper function
+sirius()->array();
+```
+
+Or use it straight from the ArrayHelpers instance:
+```php
+// use ArrayHelpers class
+$helper = new ArrayHelpers();
+
+// or use the helper function
+sArray();
+```
+
+There is currently only 1 method you can use to manipulate array:
+`sortKeyByListOf`.
+
+## sortKeyByListOf(array $listOfKeys = [])
+
+This method will sort the array key by the list of keys you give. It will preserve the keys order and filter out keys that are not in the list.
+
+```php
+echo sirius()->array(["a" => 1, "b" => 2, "c" => 3])->sortKeyByListOf(["b", "a", "c"]);
+```
+
+Code above will echo sorted array: `['b' => 2, 'a' => 1, 'c' => 3]`
+
+## Method Chaining
+
+Every method return `$this`, when this helper have more than one methods, you can also chain the methods like this:
+```php
+echo sirius()->array(["a" => 1, "b" => 2, "c" => 3])
+    ->sortKeyByListOf(["b", "a", "c"]) // will be sorted
+    ->getOriginal(); // will return original array
+```
+
+## Dumping Everywhere
+
+You can do `dump()` or `dd()` in every method above.
+For example:
+```php
+echo sirius()->array(["a" => 1, "b" => 2, "c" => 3])
+    ->sortKeyByListOf(["b", "a", "c"])
+    ->dump()
+    ->getOriginal()
     ->dd()
 ```
 
