@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SiriusProgram\SiriusHelpers;
 
 use Illuminate\Foundation\Console\AboutCommand;
@@ -22,6 +24,6 @@ class SiriusHelpersServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
-        AboutCommand::add('Environment', fn () => ['SiriusHelpers Version' => '1.1.7']);
+        AboutCommand::add('Environment', fn (): array => ['SiriusHelpers Version' => '1.1.9']);
     }
 }

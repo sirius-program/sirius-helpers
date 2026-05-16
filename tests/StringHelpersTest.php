@@ -1,7 +1,12 @@
 <?php
 
-it('can encrypt', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+declare(strict_types=1);
+
+use Illuminate\Support\Stringable;
+use SiriusProgram\SiriusHelpers\Sirius;
+
+it('can encrypt', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('text you want to encrypt @ 123')
@@ -12,8 +17,8 @@ it('can encrypt', function () {
         ->toBe('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=');
 });
 
-it('can decrypt', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can decrypt', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=')
@@ -24,8 +29,8 @@ it('can decrypt', function () {
         ->toBe('text you want to encrypt @ 123');
 });
 
-it('can make url-safe string', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can make url-safe string', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=')
@@ -36,8 +41,8 @@ it('can make url-safe string', function () {
         ->toBe('MwTMh2laUQDG09O9ZsVCv2c8pON_3IlIHf.8Dq55gkg-');
 });
 
-it('can make url-safe string unsafe again', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can make url-safe string unsafe again', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('MwTMh2laUQDG09O9ZsVCv2c8pON_3IlIHf.8Dq55gkg-')
@@ -48,8 +53,8 @@ it('can make url-safe string unsafe again', function () {
         ->toBe('MwTMh2laUQDG09O9ZsVCv2c8pON/3IlIHf+8Dq55gkg=');
 });
 
-it('can check is the given string is part of phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can check is the given string is part of phone number', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('081234')
@@ -91,8 +96,8 @@ it('can check is the given string is part of phone number', function () {
         ->toBeFalse();
 });
 
-it('can convert string to readable phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can convert string to readable phone number', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('081234567890')
@@ -127,8 +132,8 @@ it('can convert string to readable phone number', function () {
         ->toBe('0577-77-1917');
 });
 
-it('can sanitize phone number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can sanitize phone number', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius
         ->string('+62 812-3456-7890')
@@ -147,8 +152,8 @@ it('can sanitize phone number', function () {
         ->toBe('081234567890');
 });
 
-it('can convert string into it\'s initials', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it("can convert string into it's initials", function (): void {
+    $sirius = new Sirius;
 
     $original = 'Sirius Helpers by Sirius Program';
 
@@ -169,8 +174,8 @@ it('can convert string into it\'s initials', function () {
         ->toBe('SHBSP');
 });
 
-it('can be coverted into laravel\'s stringable instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it("can be coverted into laravel's stringable instance", function (): void {
+    $sirius = new Sirius;
 
     $str = str('this is sirius helper');
 
@@ -179,14 +184,14 @@ it('can be coverted into laravel\'s stringable instance', function () {
         ->toStr();
 
     expect($string)
-        ->toBeInstanceOf(\Illuminate\Support\Stringable::class);
+        ->toBeInstanceOf(Stringable::class);
 
     expect($string->toString())
         ->toBe($str->toString());
 });
 
-it('can chain the methods', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can chain the methods', function (): void {
+    $sirius = new Sirius;
 
     $string = $sirius->string('this is sirius helper');
     expect($string->get())->toBe('this is sirius helper');

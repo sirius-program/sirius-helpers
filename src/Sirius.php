@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SiriusProgram\SiriusHelpers;
 
-class Sirius
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+
+class Sirius implements \Stringable
 {
     public function __construct(private mixed $string = '')
     {
@@ -11,7 +17,7 @@ class Sirius
 
     public function __toString(): string
     {
-        return $this->string;
+        return (string) $this->string;
     }
 
     public function of(mixed $string): static
@@ -21,7 +27,7 @@ class Sirius
         return $this;
     }
 
-    public function dateTime(string|int|\DateTime|Carbon\Carbon|null $datetime = null): DateTimeHelpers
+    public function dateTime(string|int|\DateTime|Carbon|null $datetime = null): DateTimeHelpers
     {
         return new DateTimeHelpers($datetime ?? $this->string);
     }
@@ -48,7 +54,7 @@ class Sirius
         $latitudeDelta = $latitudeTo - $latitudeFrom;
         $longitudeDelta = $longitudeTo - $longitudeFrom;
 
-        $angle = 2 * asin(sqrt(pow(sin($latitudeDelta / 2), 2) + cos($latitudeFrom) * cos($latitudeTo) * pow(sin($longitudeDelta / 2), 2)));
+        $angle = 2 * asin(sqrt(sin($latitudeDelta / 2) ** 2 + cos($latitudeFrom) * cos($latitudeTo) * sin($longitudeDelta / 2) ** 2));
 
         return $angle * $earthRadius;
     }
@@ -80,8 +86,8 @@ class Sirius
 
     public static function getCountryDetail(string $countryCode): array
     {
-        $country = \Illuminate\Support\Facades\Cache::rememberForever("country-detail-$countryCode", function () use ($countryCode) {
-            $response = \Illuminate\Support\Facades\Http::get("https://restcountries.com/v3.1/alpha/$countryCode");
+        $country = Cache::rememberForever('country-detail-' . $countryCode, function () use ($countryCode) {
+            $response = Http::get('https://restcountries.com/v3.1/alpha/' . $countryCode);
 
             if ($response->failed()) {
                 throw new \Exception('failed to get the country detail');

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SiriusProgram\SiriusHelpers;
 
-class NumberHelpers
+class NumberHelpers implements \Stringable
 {
     private string $currencySymbol = '';
 
@@ -23,7 +25,7 @@ class NumberHelpers
 
     public function __toString(): string
     {
-        return $this->get();
+        return (string) $this->get();
     }
 
     // Getters
@@ -85,7 +87,7 @@ class NumberHelpers
 
     public function toRoman(): static
     {
-        $this->format('@numbers=roman');
+        $this->format('en@numbers=roman');
 
         return $this;
     }
@@ -145,7 +147,7 @@ class NumberHelpers
 
         $this->number = $spellFormatter->format($this->originalNumber) . $this->currencySymbolSpell();
 
-        if (str_starts_with($this->currencyLocale, 'id_')) {
+        if (str_starts_with((string) $this->currencyLocale, 'id_')) {
             $this->number = str($this->number)->replace('titik', 'koma')->replace('kosong', 'nol')->toString();
         }
 
@@ -179,15 +181,15 @@ class NumberHelpers
     {
         return match ($this->isInCent) {
             true => match (true) {
-                default                                    => '',
-                $this->currencySymbol == ''                => '',
-                str_contains($this->currencyLocale, 'id_') => 'sen',
-                str_contains($this->currencyLocale, 'en_') => 'cent',
-                str_contains($this->currencyLocale, 'ja_') => 'セント',
+                default                                             => '',
+                $this->currencySymbol === ''                        => '',
+                str_contains((string) $this->currencyLocale, 'id_') => 'sen',
+                str_contains((string) $this->currencyLocale, 'en_') => 'cent',
+                str_contains((string) $this->currencyLocale, 'ja_') => 'セント',
             },
             false => match (true) {
-                default                                    => '',
-                str_contains($this->currencyLocale, 'id_') => match ($this->currencySymbol) {
+                default                                             => '',
+                str_contains((string) $this->currencyLocale, 'id_') => match ($this->currencySymbol) {
                     default => $this->currencySymbol,
 
                     'Rp'  => ' rupiah',
@@ -199,7 +201,7 @@ class NumberHelpers
                     '₽'   => ' rubel',
                     'ر.س' => ' riyal',
 
-                    'IDR' => ' rupiah indonesia',
+                    'IDR'        => ' rupiah indonesia',
                     'USD', 'US$' => ' dollar amerika',
                     'SGD', 'SG$' => ' dollar singapura',
                     'EUR', 'EU€' => ' euro',
@@ -207,9 +209,9 @@ class NumberHelpers
                     'JPY', 'JP¥' => ' yen jepang',
                     'CNY', 'CN¥' => ' yuan tiongkok',
                     'RUB', 'RU₽' => ' ruble rusia',
-                    'SAR' => ' riyal arab saudi',
+                    'SAR'        => ' riyal arab saudi',
                 },
-                str_contains($this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
+                str_contains((string) $this->currencyLocale, 'en_') => str(match ($this->currencySymbol) {
                     default => $this->currencySymbol,
 
                     'Rp'  => ' rupiah',
@@ -221,7 +223,7 @@ class NumberHelpers
                     '₽'   => ' ruble',
                     'ر.س' => ' riyal',
 
-                    'IDR' => ' indonesian rupiah',
+                    'IDR'        => ' indonesian rupiah',
                     'USD', 'US$' => ' united states dollar',
                     'SGD', 'SG$' => ' singaporean dollar',
                     'EUR', 'EU€' => ' euro',
@@ -229,22 +231,22 @@ class NumberHelpers
                     'JPY', 'JP¥' => ' japanese yen',
                     'CNY', 'CN¥' => ' chinese yuan',
                     'RUB', 'RU₽' => ' russian ruble',
-                    'SAR' => ' saudi arabian riyal',
+                    'SAR'        => ' saudi arabian riyal',
                 })->plural($this->originalNumber)->toString(),
-                str_contains($this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
+                str_contains((string) $this->currencyLocale, 'ja_') => match ($this->currencySymbol) {
                     default => $this->currencySymbol,
 
                     'Rp'  => 'ルピア',
                     '$'   => 'ドル',
                     '€'   => 'ユーロ',
                     '£'   => 'ポンド',
-                    '￥'   => '円',
+                    '￥'  => '円',
                     '¥'   => '円',
                     '¥'   => '元',
                     '₽'   => 'ルーブル',
                     'ر.س' => 'リヤル',
 
-                    'IDR' => 'インドネシアルピア',
+                    'IDR'        => 'インドネシアルピア',
                     'USD', 'US$' => '米ドル',
                     'SGD', 'SG$' => 'シンガポールドル',
                     'EUR', 'EU€' => 'ユーロ',
@@ -252,7 +254,7 @@ class NumberHelpers
                     'JPY', 'JP¥' => '日本円',
                     'CNY', 'CN¥' => '中国元',
                     'RUB', 'RU₽' => 'ロシアルーブル',
-                    'SAR' => 'サウジアラビアリヤル',
+                    'SAR'        => 'サウジアラビアリヤル',
                 },
             },
         };

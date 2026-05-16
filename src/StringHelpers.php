@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SiriusProgram\SiriusHelpers;
 
-class StringHelpers
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
+
+class StringHelpers implements \Stringable
 {
-    protected \libphonenumber\PhoneNumber $phoneNumber;
+    protected PhoneNumber $phoneNumber;
 
     public function __construct(private string $string = '')
     {
@@ -44,9 +50,9 @@ class StringHelpers
 
     public function encrypt(?string $salt = null): static
     {
-        $salt = $salt ?? config('app.key');
+        $salt ??= config('app.key');
         $method = 'aes-256-cbc';
-        $key = substr(hash('sha256', $salt, true), 0, 32);
+        $key = substr(hash('sha256', (string) $salt, true), 0, 32);
         $iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
 
         $this->string = base64_encode(openssl_encrypt($this->string, $method, $key, OPENSSL_RAW_DATA, $iv));
@@ -56,13 +62,13 @@ class StringHelpers
 
     public function decrypt(?string $salt = null): static
     {
-        $salt = $salt ?? config('app.key');
+        $salt ??= config('app.key');
         $method = 'aes-256-cbc';
-        $key = substr(hash('sha256', $salt, true), 0, 32);
+        $key = substr(hash('sha256', (string) $salt, true), 0, 32);
         $iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
 
         $decrypted = openssl_decrypt(base64_decode($this->string), $method, $key, OPENSSL_RAW_DATA, $iv);
-        if (empty($decrypted)) {
+        if (in_array($decrypted, ['', '0', false], true)) {
             $decrypted = openssl_decrypt(base64_decode($this->urlUnsafe()->string), $method, $key, OPENSSL_RAW_DATA, $iv);
         }
 
@@ -88,18 +94,15 @@ class StringHelpers
     public function isPartOfPhoneNumber(): bool
     {
         $string = str($this->string)->remove('(')->remove(')')->remove('+')->remove('-')->remove(' ')->toString();
-        if (preg_match('/^[0-9]{2,}$/', $string)) {
-            return true;
-        }
 
-        return false;
+        return (bool) preg_match('/^\d{2,}$/', $string);
     }
 
     public function toPhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null): static
     {
-        $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+        $formatter = PhoneNumberUtil::getInstance();
 
-        $countryCode = $countryCode ?? config('sirius-helpers.country_code');
+        $countryCode ??= config('sirius-helpers.country_code');
 
         $this->phoneNumber = $formatter->parse($this->string, $countryCode);
 
@@ -107,24 +110,24 @@ class StringHelpers
             throw new \InvalidArgumentException('Invalid phone number.', 500);
         }
 
-        $this->string = $formatter->format($this->phoneNumber, $zeroPrefix ? \libphonenumber\PhoneNumberFormat::NATIONAL : \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+        $this->string = $formatter->format($this->phoneNumber, $zeroPrefix ? PhoneNumberFormat::NATIONAL : PhoneNumberFormat::INTERNATIONAL);
 
         return $this;
     }
 
     public function sanitizePhoneNumber(bool $zeroPrefix = false, ?string $countryCode = null): static
     {
-        $countryCode = $countryCode ?? config('sirius-helpers.country_code');
+        $countryCode ??= config('sirius-helpers.country_code');
 
         try {
             if (empty($this->phoneNumber)) {
-                $formatter = \libphonenumber\PhoneNumberUtil::getInstance();
+                $formatter = PhoneNumberUtil::getInstance();
                 $this->phoneNumber = $formatter->parse($this->string, $countryCode);
             }
 
             $this->string = $this->phoneNumber->getNationalNumber();
             $this->string = $zeroPrefix ? ('0' . $this->string) : ('+' . $this->phoneNumber->getCountryCode() . $this->string);
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             $dailingCode = Sirius::getCountryDetail($countryCode)['dailingCode'];
 
             $this->string = str($this->string)->remove('(')->remove(')')->remove('-')->remove(' ')->toString();
@@ -133,15 +136,11 @@ class StringHelpers
                 $this->string = substr($this->string, 0, 1);
             }
 
-            if (str_starts_with($this->string, $dailingCode)) {
+            if (str_starts_with($this->string, (string) $dailingCode)) {
                 $this->string = str_replace($dailingCode, '', $this->string);
             }
 
-            if ($zeroPrefix) {
-                $this->string = 0 . $this->string;
-            } else {
-                $this->string = $dailingCode . $this->string;
-            }
+            $this->string = $zeroPrefix ? 0 . $this->string : $dailingCode . $this->string;
         }
 
         return $this;

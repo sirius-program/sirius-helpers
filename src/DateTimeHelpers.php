@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SiriusProgram\SiriusHelpers;
 
-class DateTimeHelpers
+use Carbon\Carbon;
+
+class DateTimeHelpers implements \Stringable
 {
     const START_WITH_SUNDAY = 0;
 
     const START_WITH_MONDAY = 1;
 
-    private string|int|\DateTime|\Carbon\Carbon $originalDateTime;
+    private string|int|\DateTime|Carbon $originalDateTime;
 
     protected \IntlDateFormatter $formatter;
 
-    public function __construct(private string|int|\DateTime|\Carbon\Carbon $dateTime = '')
+    public function __construct(private string|int|\DateTime|Carbon $dateTime = '')
     {
         $locale = config('app.locale');
 
@@ -23,24 +27,24 @@ class DateTimeHelpers
 
     public function __toString(): string
     {
-        return $this->get();
+        return (string) $this->get();
     }
 
     // Getters
 
-    public function getOriginal(): string|int|\DateTime|\Carbon\Carbon
+    public function getOriginal(): string|int|\DateTime|Carbon
     {
         return $this->originalDateTime;
     }
 
-    public function get(): string|int|\DateTime|\Carbon\Carbon
+    public function get(): string|int|\DateTime|Carbon
     {
         return $this->dateTime;
     }
 
     // Transformation
 
-    public function of(string|int|\DateTime|\Carbon\Carbon $string): static
+    public function of(string|int|\DateTime|Carbon $string): static
     {
         $this->dateTime = $string;
 
@@ -62,7 +66,7 @@ class DateTimeHelpers
 
     public function toCarbon(string $fromFormat = 'Y-m-d H:i:s'): static
     {
-        $this->dateTime = \Carbon\Carbon::createFromFormat($fromFormat, $this->dateTime);
+        $this->dateTime = Carbon::createFromFormat($fromFormat, $this->dateTime);
 
         if ($this->dateTime === 0) {
             throw new \InvalidArgumentException('Invalid date format.', 500);
@@ -75,7 +79,7 @@ class DateTimeHelpers
     {
         if ($this->dateTime instanceof \DateTime) {
             $this->dateTime = $this->dateTime->format($format);
-        } elseif ($this->dateTime instanceof \Carbon\Carbon) {
+        } elseif ($this->dateTime instanceof Carbon) {
             $this->dateTime = $this->dateTime->translatedFormat($format);
         } else {
             throw new \Exception(sprintf('Cannot format instance of %s.', gettype($this->dateTime)), 500);
@@ -131,7 +135,7 @@ class DateTimeHelpers
     {
         if ($this->dateTime instanceof \DateTime) {
             $this->dateTime = $this->dateTime->format($dateTimeFormat);
-        } elseif ($this->dateTime instanceof \Carbon\Carbon) {
+        } elseif ($this->dateTime instanceof Carbon) {
             $this->dateTime = $this->dateTime->translatedFormat($dateTimeFormat);
         } elseif (is_numeric($this->dateTime)) {
             $this->dateTime = self::{$fetchFunction}(format: $fetcherFormat)[(int) $this->dateTime];
@@ -141,7 +145,7 @@ class DateTimeHelpers
                 $format = 'Y-m-d H:i:s';
             }
 
-            class_exists(\Carbon\Carbon::class) ? $this->toCarbon($format) : $this->toDateTime($format);
+            class_exists(Carbon::class) ? $this->toCarbon($format) : $this->toDateTime($format);
             $this->transform($fetchFunction, $dateTimeFormat, $fetcherFormat);
         }
 
@@ -156,7 +160,7 @@ class DateTimeHelpers
             throw new \Exception('Intl extension is not loaded in this environment.', 500);
         }
 
-        if (!in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'])) {
+        if (!in_array($format, ['M', 'MM', 'MMM', 'MMMM', 'MMMMM'], true)) {
             throw new \InvalidArgumentException('Invalid format, accepted format: M, MM, MMM, MMMM, or MMMMM.', 500);
         }
 
@@ -182,7 +186,7 @@ class DateTimeHelpers
             throw new \Exception('Intl extension is not loaded in this environment.', 500);
         }
 
-        if (!in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'])) {
+        if (!in_array($format, ['E', 'EE', 'EEE', 'EEEE', 'EEEEE'], true)) {
             throw new \InvalidArgumentException('Invalid format, accepted format: E, EE, EEE, EEEE or EEEEEE.', 500);
         }
 
@@ -199,7 +203,7 @@ class DateTimeHelpers
             $days[$i] = $formatter->format($dateTime->setDate(2001, 1, $i));
         }
 
-        if ($startingDay == self::START_WITH_SUNDAY) {
+        if ($startingDay === self::START_WITH_SUNDAY) {
             $days[0] = $days[7];
             unset($days[7]);
         }

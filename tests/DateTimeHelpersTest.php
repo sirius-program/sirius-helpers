@@ -1,29 +1,35 @@
 <?php
 
-it('can be converted into php\'s datetime instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+declare(strict_types=1);
+
+use Carbon\Carbon;
+use SiriusProgram\SiriusHelpers\DateTimeHelpers;
+use SiriusProgram\SiriusHelpers\Sirius;
+
+it("can be converted into php's datetime instance", function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toDateTime()
         ->get();
 
     expect($datetime)
-        ->toBeInstanceOf(\DateTime::class);
+        ->toBeInstanceOf(DateTime::class);
 });
 
-it('can be converted into nesbot\'s carbon instance', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it("can be converted into nesbot's carbon instance", function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toCarbon()
         ->get();
 
     expect($datetime)
-        ->toBeInstanceOf(\Carbon\Carbon::class);
+        ->toBeInstanceOf(Carbon::class);
 });
 
-it('can be formatted', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be formatted', function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime('2024-01-01 01:01:01')
         ->toDateTime()
@@ -34,8 +40,8 @@ it('can be formatted', function () {
         ->toBe('2024-01-01');
 });
 
-it('can be converted into long month', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into long month', function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toLongMonth()
@@ -68,8 +74,8 @@ it('can be converted into long month', function () {
         ->toBe('April');
 });
 
-it('can be converted into short month', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into short month', function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toShortMonth()
@@ -102,8 +108,8 @@ it('can be converted into short month', function () {
         ->toBe('Apr');
 });
 
-it('can be converted into long day', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into long day', function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toLongDay()
@@ -136,8 +142,8 @@ it('can be converted into long day', function () {
         ->toBe('Thursday');
 });
 
-it('can be converted into short day', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into short day', function (): void {
+    $sirius = new Sirius;
 
     $datetime = $sirius->dateTime(1)
         ->toShortDay()
@@ -170,8 +176,8 @@ it('can be converted into short day', function () {
         ->toBe('Thu');
 });
 
-it('can retrieve list on months', function () {
-    $months = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllMonths();
+it('can retrieve list on months', function (): void {
+    $months = DateTimeHelpers::getAllMonths();
 
     expect($months)
         ->toBeArray();
@@ -195,7 +201,7 @@ it('can retrieve list on months', function () {
             12 => 'December',
         ]);
 
-    $months = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllMonths(format: 'MMM');
+    $months = DateTimeHelpers::getAllMonths(format: 'MMM');
 
     expect($months)
         ->toBe([
@@ -214,8 +220,8 @@ it('can retrieve list on months', function () {
         ]);
 });
 
-it('can retrieve list on days', function () {
-    $days = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllDays();
+it('can retrieve list on days', function (): void {
+    $days = DateTimeHelpers::getAllDays();
 
     expect($days)
         ->toBeArray();
@@ -234,7 +240,7 @@ it('can retrieve list on days', function () {
             6 => 'Saturday',
         ]);
 
-    $days = SiriusProgram\SiriusHelpers\DateTimeHelpers::getAllDays(format: 'EE', startingDay: SiriusProgram\SiriusHelpers\DateTimeHelpers::START_WITH_MONDAY);
+    $days = DateTimeHelpers::getAllDays(format: 'EE', startingDay: DateTimeHelpers::START_WITH_MONDAY);
 
     expect($days)
         ->toBe([

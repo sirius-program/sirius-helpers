@@ -1,7 +1,9 @@
 <?php
 
-it('can be converted into int', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+use SiriusProgram\SiriusHelpers\Sirius;
+
+it('can be converted into int', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('123.45')
@@ -12,8 +14,8 @@ it('can be converted into int', function () {
         ->toBe(123);
 });
 
-it('can be converted into float', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into float', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('123.45')
@@ -24,8 +26,8 @@ it('can be converted into float', function () {
         ->toBe(123.45);
 });
 
-it('can be formatted', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be formatted', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -44,8 +46,8 @@ it('can be formatted', function () {
         ->toBe('1,234,567.89');
 });
 
-it('can be converted into roman numerals', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into roman numerals', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234')
@@ -56,8 +58,8 @@ it('can be converted into roman numerals', function () {
         ->toBe('MCCXXXIV');
 });
 
-it('can be converted into currency', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into currency', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -76,8 +78,8 @@ it('can be converted into currency', function () {
         ->toBe('$1,234,567.89');
 });
 
-it('can be converted into cent', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted into cent', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -88,8 +90,8 @@ it('can be converted into cent', function () {
         ->toBe('123.456.789');
 });
 
-it('can be converted from cent', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can be converted from cent', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number(123456789)
@@ -106,8 +108,8 @@ it('can be converted from cent', function () {
     expect($number->getOriginal())->toBe(123456789);
 });
 
-it('can spell out the number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can spell out the number', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -126,8 +128,8 @@ it('can spell out the number', function () {
         ->toBe('one million two hundred thirty-four thousand five hundred sixty-seven point eight nine');
 });
 
-it('can spell out the currency with it\'s symbol', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it("can spell out the currency with it's symbol", function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -148,8 +150,8 @@ it('can spell out the currency with it\'s symbol', function () {
         ->toBe('one million two hundred thirty-four thousand five hundred sixty-seven point eight nine dollars');
 });
 
-it('can get the original number', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can get the original number', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius
         ->number('1234567.89')
@@ -160,8 +162,8 @@ it('can get the original number', function () {
         ->toBe(1234567.89);
 });
 
-it('can chain the methods', function () {
-    $sirius = new SiriusProgram\SiriusHelpers\Sirius;
+it('can chain the methods', function (): void {
+    $sirius = new Sirius;
 
     $number = $sirius->number('1234567.89');
     expect($number->get())->toBe(1234567.89);

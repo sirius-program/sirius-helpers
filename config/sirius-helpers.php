@@ -1,7 +1,8 @@
 <?php
 
-// config for SiriusProgram/SiriusHelpers
+declare(strict_types=1);
 
+// config for SiriusProgram/SiriusHelpers
 return [
     /**
      * Default country code for phone number formatting.

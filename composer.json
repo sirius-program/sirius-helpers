@@ -19,16 +19,18 @@
         "php": "^8.2",
         "giggsey/libphonenumber-for-php": "^8.13",
         "guzzlehttp/guzzle": "^7.9",
-        "illuminate/contracts": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/contracts": "^10.0 || ^11.0 || ^12.0 || ^13.0",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.1.1||^7.10.0",
-        "orchestra/testbench": "^9.0.0||^8.22.0",
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-arch": "^2.7",
-        "pestphp/pest-plugin-laravel": "^2.3"
+        "orchestra/testbench": "^10.11",
+        "peckphp/peck": "^0.3.0",
+        "pestphp/pest": "*",
+        "pestphp/pest-plugin-arch": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "rector/rector": "^2.4"
     },
     "autoload": {
         "psr-4": {
@@ -41,7 +43,7 @@
     "autoload-dev": {
         "psr-4": {
             "SiriusProgram\\SiriusHelpers\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "WorkbCench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
@@ -57,9 +59,17 @@
             "@composer run build",
             "@php vendor/bin/testbench serve"
         ],
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "pint": "vendor/bin/pint",
+        "refactor": "rector",
+        "test:type": "pest",
+        "test:typos": "peck",
+        "test:refactor": "rector --dry-run",
+        "test": [
+            "@pint",
+            "@test:typos",
+            "@test:refactor",
+            "@test:type"
+        ]
     },
     "config": {
         "sort-packages": true,
